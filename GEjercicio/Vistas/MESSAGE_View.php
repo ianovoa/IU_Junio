@@ -6,23 +6,24 @@
  */
 
 class MESSAGE_View {
-    private $mensaje;
-    private $volver;
-    
     function __construct($mensaje,$volver){
-        $this->mensaje=$mensaje;
-        $this->volver=$volver;
+        $this->render($mensaje,$volver);
     }
     
-    function render(){
+    function render($mensaje,$volver){
 ?>
-        <br><br><h3>
+        <html>
+            <head></head>
+            <body>
 <?php
-        echo "$this->mensaje";
+        echo "MENSAJE: $mensaje";
+        echo "<br><br>";
+        echo "<a href='$volver'>Volver</a>";
+        
 ?>
-        </h3><br><br>
+            </body>
+        </html>
 <?php
-        echo "<a href=\'".$this->volver."'>"."Volver"." </a>";
     }
 }
 ?>

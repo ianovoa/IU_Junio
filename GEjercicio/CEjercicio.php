@@ -15,7 +15,7 @@ include 'Vistas/MESSAGE_View.php';
 
     Switch ($_REQUEST['action']){
         case 'alta':
-            if(!$_REQUEST['nombreEj']){
+            if(!isset($_REQUEST['nombreEj'])){
                 new VAltaEjercicio();
             }
             else{
@@ -24,33 +24,35 @@ include 'Vistas/MESSAGE_View.php';
 
                 $ejercicio=new MEjercicio("",$nombreEj,$descripcionEj);
                 $respuesta=$ejercicio->insert();
-                new MESSAGE_View($respuesta, "./index.php");
+                new MESSAGE_View($respuesta, "../index.php");
             }
             break;
     
         case 'baja':
-            if(!$_REQUEST['idEjercicio']){
-                $modelo=new MEjercicio("","","");
+            if(!isset($_REQUEST['idEjercicio'])){
+                $selectAll=new MEjercicio("","","");
                 $listaEjercicios=$selectAll->select();
-                $vista=new VBajaEjercicio($listaEjercicios);
+                new VBajaEjercicio($listaEjercicios);
+            }
+            elseif(!isset($_REQUEST['confirmar'])) {
                 $idEjercicio=$_REQUEST['idEjercicio'];
                 $modelo=new MEjercicio($idEjercicio,"","");
                 $ejercicioBorrar=$modelo->selectID();
-                $vista->solicitarConfirmacion($ejercicioBorrar);
+                VBajaEjercicio::solicitarConfirmacion($ejercicioBorrar);
             }
             else{
-                if($_REQUEST['confirmar']=="Si"){ //si el usuario confirma q quiere borrar el ej
+                if($_REQUEST['confirmar']=="si"){ //si el usuario confirma q quiere borrar el ej
                     $idEjercicio=$_REQUEST['idEjercicio'];
 
                     $ejercicio=new MEjercicio($idEjercicio,"","");
                     $respuesta=$ejercicio->delete();
-                    new MESSAGE_View($respuesta, "./index.php");
+                    new MESSAGE_View($respuesta, "../index.php");
                 }
             }
             break;
     
         case 'consulta':
-            if(!$_REQUEST['nombreEj']){
+            if(!isset($_REQUEST['nombreEj'])){
                 new VConsultarEjercicio(); //psa
             }
             else{
@@ -63,12 +65,12 @@ include 'Vistas/MESSAGE_View.php';
             break;
     
         case 'modificacion':
-            if(!$_REQUEST['idEjercicio']){
+            if(!isset($_REQUEST['idEjercicio'])){
                 $selectAll=new MEjercicio("","","");
                 $listaEjercicios=$selectAll->select();
                 new VModificarEjercicio($listaEjercicios); //asi conseguimos la id del ejercicio a modificar 
             }
-            elseif (!$_REQUEST['nombreEj'] && !$_REQUEST['descripcionEj']) {
+            elseif (!isset($_REQUEST['nombreEj']) && !isset($_REQUEST['descripcionEj'])) {
                 $idEjercicio=$_REQUEST['idEjercicio'];
                 VModificarEjercicio::mostrarFormulario($idEjercicio); //luego se envia a un formulario para editar
             }
@@ -79,7 +81,7 @@ include 'Vistas/MESSAGE_View.php';
 
                 $ejercicio=new MEjercicio($idEjercicio,$nombreEj,$descripcionEj);
                 $respuesta=$ejercicio->update();
-                new MESSAGE_View($respuesta,"./index.php");
+                new MESSAGE_View($respuesta,"../index.php");
             }
             break;
     }

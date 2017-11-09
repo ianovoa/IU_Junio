@@ -20,11 +20,11 @@ class VBajaEjercicio{
                 <form action="./CEjercicio.php" method="post">
                     <div>
                         <p>Selecione la ID del ejercicio a borrar:</p>
-                        <select name="idEjercicio">
 <?php
+        $tupla=$listaEjercicios->fetch_row();
         do{
+            echo "<input type='radio' name='idEjercicio' value='$tupla[0]'>$tupla[0] -> $tupla[1]<br>";
             $tupla=$listaEjercicios->fetch_row();
-            echo "<option>$tupla[0]</option>";
         }while(!is_null($tupla));
 ?>
                         </select>
@@ -33,21 +33,6 @@ class VBajaEjercicio{
                         <button type="submit" name="action" value="baja">Enviar</button>
                     </div>
                 </form>
-                <br><br>
-                <h3>Lista de ejercicios disponibles:</h3>
-                <table>
-                    <tr>
-                        <td>ID del ejercicio</td>
-                        <td>Nombre del ejercicio</td>
-                    </tr>
-<?php
-        do{
-            $tupla=$listaEjercicios2->fetch_row();
-            echo "<tr><td>$tupla[0]</td>";
-            echo "<td>$tupla[1]</td></tr>";
-        }while(!is_null($tupla));
-?>
-                </table>
             </body>
         </html>
 
@@ -63,19 +48,31 @@ class VBajaEjercicio{
                 <table>
                     <tr>
                         <td>Id del ejercicio:</td>
-                        <td><?php $ejercicioBorrar[0] ?></td>
+<?php
+        echo "<td>$ejercicioBorrar[0]</td>";
+?>
                     </tr>
                     <tr>
                         <td>Nombre del ejercicio:</td>
-                        <td><?php $ejercicioBorrar[1] ?></td>
+<?php
+        echo "<td>$ejercicioBorrar[1]</td>";
+?>
                     </tr>
                     <tr>
                         <td>Descripcion del ejercicio:</td>
-                        <td><?php $ejercicioBorrar[2] ?></td>
+<?php
+        echo "<td>$ejercicioBorrar[2]</td>";
+?>
                     </tr>
                 </table>
                 <br><br>
-                <form action="../CEjercicio.php" method="POST">
+                <form action="./CEjercicio.php" method="POST">
+<?php
+        echo "<input type='hidden' name='idEjercicio' value='$ejercicioBorrar[0]'/>";
+        echo "<input type='hidden' name='nombreEj' value='$ejercicioBorrar[1]'/>";
+        echo "<input type='hidden' name='descripcionEj' value='$ejercicioBorrar[2]'/>";
+        echo "<input type='hidden' name='action' value='baja'/>";
+?>
                     <div>
                         <button type="submit" name="confirmar" value="si">Si</button>
                         <button type="submit" name="confirmar" value="no">No</button>
