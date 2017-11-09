@@ -66,7 +66,7 @@ class MEjercicio {
             }
             else{
                 $nombreEj= $this->nombreEj;
-            }if($this->descripcionEj==""){ //si descripcion esta vacio se le añade el q ya tiene
+            }if($this->descripcionEj==""){ //si descripcion esta vacia se le añade el q ya tiene
                 $descripcionEj=$tupla[2];
             }
             else{

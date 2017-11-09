@@ -44,7 +44,7 @@ include 'Vistas/MESSAGE_View.php';
 
                     $ejercicio=new MEjercicio($idEjercicio,"","");
                     $respuesta=$ejercicio->delete();
-                    new MESSAGE($respuesta, "./index.php");
+                    new MESSAGE_View($respuesta, "./index.php");
                 }
             }
             break;
@@ -66,8 +66,11 @@ include 'Vistas/MESSAGE_View.php';
             if(!$_REQUEST['idEjercicio']){
                 $selectAll=new MEjercicio("","","");
                 $listaEjercicios=$selectAll->select();
-                $vista=new VModificarEjercicio($listaEjercicios); //asi conseguimos la id del ejrcicio a modificar 
-                $vista->mostrarFormulario(); //luego se envia a un formulario para editar
+                new VModificarEjercicio($listaEjercicios); //asi conseguimos la id del ejercicio a modificar 
+            }
+            elseif (!$_REQUEST['nombreEj'] && !$_REQUEST['descripcionEj']) {
+                $idEjercicio=$_REQUEST['idEjercicio'];
+                VModificarEjercicio::mostrarFormulario($idEjercicio); //luego se envia a un formulario para editar
             }
             else{
                 $idEjercicio=$_REQUEST['idEjercicio'];
@@ -76,7 +79,7 @@ include 'Vistas/MESSAGE_View.php';
 
                 $ejercicio=new MEjercicio($idEjercicio,$nombreEj,$descripcionEj);
                 $respuesta=$ejercicio->update();
-                new MESSAGE($respuesta,"./index.php");
+                new MESSAGE_View($respuesta,"./index.php");
             }
             break;
     }

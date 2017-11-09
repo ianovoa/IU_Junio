@@ -7,10 +7,10 @@
 <html>
     <head></head>
     <body>
-                <h2>Formulario de alta de ejercicio:</h2>
+                <h1>Index de prueba:</h1>
                 <form action="./GEjercicio/CEjercicio.php" method="post">
                     <div>
-                        <p>Nombre del ejercicio:</p>
+                        <p>Accion a realizar:</p>
                         <select name="action">
                             <option>alta</option>
                             <option>baja</option>

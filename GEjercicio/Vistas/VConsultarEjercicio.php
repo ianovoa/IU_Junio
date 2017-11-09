@@ -43,10 +43,11 @@ class VConsultarEjercicio{
                         <td>Descripcion ejercicio</td>
                     </tr>
 <?php
+        $tupla=$resultado->fetch_row();
         do{
-            $tupla=$resultado->fetch_row();
             echo "<tr><td>$tupla[1]</td>";
             echo "<td>$tupla[2]</td></tr>";
+            $tupla=$resultado->fetch_row();
         }while(!is_null($tupla));
 ?>
                 </table>

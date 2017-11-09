@@ -25,7 +25,7 @@ class VBajaEjercicio{
         do{
             $tupla=$listaEjercicios->fetch_row();
             echo "<option>$tupla[0]</option>";
-        }while(is_null($tupla));
+        }while(!is_null($tupla));
 ?>
                         </select>
                     </div>
@@ -45,7 +45,7 @@ class VBajaEjercicio{
             $tupla=$listaEjercicios2->fetch_row();
             echo "<tr><td>$tupla[0]</td>";
             echo "<td>$tupla[1]</td></tr>";
-        }while(is_null($tupla));
+        }while(!is_null($tupla));
 ?>
                 </table>
             </body>
@@ -54,7 +54,7 @@ class VBajaEjercicio{
 <?php
     }
     
-    function solicitarConfirmacion($ejercicioBorrar){
+    static function solicitarConfirmacion($ejercicioBorrar){
 ?>
         <html>
             <head></head>

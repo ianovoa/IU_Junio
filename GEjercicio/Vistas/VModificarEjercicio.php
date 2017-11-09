@@ -11,7 +11,6 @@ class VModificarEjercicio{
     }
     
     function render($listaEjercicios){
-        $listaEjercicios2=$listaEjercicios;
 ?>
         <html>
             <head></head>
@@ -20,12 +19,12 @@ class VModificarEjercicio{
                 <form action="./CEjercicio.php" method="post">
                     <div>
                         <p>Selecione la ID del ejercicio a modifiacar:</p>
-                        <select name="idEjercicio">
 <?php
+        $tupla=$listaEjercicios->fetch_row();
         do{
+            echo "<input type='radio' name='idEjercicio' value='$tupla[0]'>$tupla[0] -> $tupla[1]<br>";
             $tupla=$listaEjercicios->fetch_row();
-            echo "<option>$tupla[0]</option>";
-        }while(is_null($tupla));
+        }while(!is_null($tupla));
 ?>
                         </select>
                     </div>
@@ -33,34 +32,22 @@ class VModificarEjercicio{
                         <button type="submit" name="action" value="modificacion">Enviar</button>
                     </div>
                 </form>
-                <br><br>
-                <h3>Lista de ejercicios disponibles:</h3>
-                <table>
-                    <tr>
-                        <td>ID del ejercicio</td>
-                        <td>Nombre del ejercicio</td>
-                    </tr>
-<?php
-        do{
-            $tupla=$listaEjercicios2->fetch_row();
-            echo "<tr><td>$tupla[0]</td>";
-            echo "<td>$tupla[1]</td></tr>";
-        }while(is_null($tupla));
-?>
-                </table>
             </body>
         </html>
 
 <?php
     }
     
-    function mostrarFormulario(){
+    static function mostrarFormulario($idEjercicio){
 ?>
         <html>
             <head></head>
             <body>
                 <h2>Formulario de modificacion del ejercicio:</h2>
-                <form action="../CEjercicio.php" method="post">
+                <form action="./CEjercicio.php" method="post">
+<?php
+        echo "<input type='hidden' name='idEjercicio' value='$idEjercicio'/>";
+?>
                     <div>
                         <label for="nombreEj">Nombre del ejercicio:</label>
                         <input type="text" name="nombreEj" size="30"/>
@@ -70,7 +57,7 @@ class VModificarEjercicio{
                         <textarea name="descripcionEj">Escribir descripcion aqui</textarea>
                     </div>
                     <div>
-                        <button type="submit" name="submit" value="Enviar">Enviar</button>
+                        <button type="submit" name="action" value="modificacion">Enviar</button>
                         <button type="reset" name="reset" value="Borrar">Borrar</button>
                     </div>
                 </form>
