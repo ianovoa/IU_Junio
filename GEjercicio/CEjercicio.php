@@ -13,7 +13,7 @@ include 'Vistas/VModificarEjercicio.php';
 include 'Vistas/VConsultarEjercicio.php';
 include 'Vistas/MESSAGE_View.php';
 
-    Switch ($_REQUEST['action']){
+    switch ($_REQUEST['action']){
         case 'alta':
             if(!isset($_REQUEST['nombreEj'])){
                 new VAltaEjercicio();
@@ -53,7 +53,7 @@ include 'Vistas/MESSAGE_View.php';
     
         case 'consulta':
             if(!isset($_REQUEST['nombreEj'])){
-                new VConsultarEjercicio(); //psa
+                new VConsultarEjercicio();
             }
             else{
                 $nombreEj=$_REQUEST['nombreEj'];
@@ -85,10 +85,4 @@ include 'Vistas/MESSAGE_View.php';
             }
             break;
     }
-    
-//    private function showAllEjercicio(){
-//        $ejercicio=new MEjercicio("","","");
-//        return $ejercicio->select();
-//    }
-//}
 ?>

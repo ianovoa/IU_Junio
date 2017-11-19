@@ -11,7 +11,6 @@ class VBajaEjercicio{
     }
     
     function render($listaEjercicios){
-        $listaEjercicios2=$listaEjercicios;
 ?>
         <html>
             <head></head>
@@ -27,7 +26,6 @@ class VBajaEjercicio{
             $tupla=$listaEjercicios->fetch_row();
         }while(!is_null($tupla));
 ?>
-                        </select>
                     </div>
                     <div>
                         <button type="submit" name="action" value="baja">Enviar</button>
@@ -35,7 +33,6 @@ class VBajaEjercicio{
                 </form>
             </body>
         </html>
-
 <?php
     }
     
