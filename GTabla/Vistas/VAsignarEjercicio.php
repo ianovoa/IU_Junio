@@ -79,10 +79,10 @@ class VAsignarEjercicio {
                     <p>Escribir el numero de repeticiones:</p>
 <?php
         echo "<input type='hidden' name='idTabla' value='$idTabla'/>";
-        echo "<input type='hidden' name='ejercicios' value='$ejercicios'/>";
         for($i=0;$i<count($nombreEj);$i++){
             echo "<div><label for='cantidades[]'>$nombreEj[$i]:</label>";
             echo "<input type='text' name='cantidades[]' size='3'/></div>";
+            echo "<input type='hidden' name='ejercicios[]' value='$ejercicios[$i]'/>";
         }
 ?>
                     <div>

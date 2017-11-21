@@ -1,5 +1,4 @@
 <?php
-//FALTA MENSAJE_VIEW
 /**
  * Aqui creamos la conexion a la base de datos
  *
@@ -11,7 +10,7 @@ function conexionBD(){
     	
     if ($mysqli->connect_errno) {
         include './MESSAGE_View.php';
-        new MESSAGE("Fallo al conectar a MySQL: (" . $mysqli->connect_errno . ") \n" . $mysqli->connect_error,"./index.php");
+        new MESSAGE_View("Fallo al conectar a MySQL: (" . $mysqli->connect_errno . ") \n" . $mysqli->connect_error,"./index.php");
         return false;
     }
     else{

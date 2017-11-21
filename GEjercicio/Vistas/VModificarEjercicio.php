@@ -26,6 +26,7 @@ class VModificarEjercicio{
             $tupla=$listaEjercicios->fetch_row();
         }while(!is_null($tupla));
 ?>
+                        </select>
                     </div>
                     <div>
                         <button type="submit" name="action" value="modificacion">Enviar</button>

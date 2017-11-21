@@ -5,6 +5,7 @@
  * @author iago
  */
 
+
 class MEjercicio {
     var $idEjercicio;
     var $nombreEj;
@@ -24,10 +25,10 @@ class MEjercicio {
     //inserta una nueva tupla en la BD
     function insert(){
         if($this->nombreEj<>""){ //el campo nombre no esta vacio
-            $sql="SELECT * FROM Ejercicio WHERE nombreEjercicio='$this->nombreEj'";
+            $sql="SELECT * FROM Ejercicio WHERE nombreEj='$this->nombreEj'";
             $resultado= $this->mysqli->query($sql);
             if ($resultado->num_rows==0) { //comprobamos q no exita ya un ej con ese nombre
-                $sql = "INSERT INTO Ejercicio (nombreEjercicio,descripcionEj) VALUES ('$this->nombreEj','$this->descripcionEj')";
+                $sql = "INSERT INTO Ejercicio (nombreEj,descripcionEj) VALUES ('$this->nombreEj','$this->descripcionEj')";
                 $this->mysqli->query($sql);
                 return "Inserción realizada con éxito";
             }
@@ -71,7 +72,7 @@ class MEjercicio {
             else{
                 $descripcionEj= $this->descripcionEj;
             }
-            $sql = "UPDATE Ejercicio SET nombreEjercicio='$nombreEj',descripcionEj='$descripcionEj' WHERE idEjercicio=$this->idEjercicio";
+            $sql = "UPDATE Ejercicio SET nombreEj='$nombreEj',descripcionEj='$descripcionEj' WHERE idEjercicio=$this->idEjercicio";
             $this->mysqli->query($sql);
             return "Modificado correctamente";
         }
@@ -87,7 +88,7 @@ class MEjercicio {
             return $resultado;
         }
         else{
-            $sql="SELECT * FROM Ejercicio WHERE nombreEjercicio LIKE '%$this->nombreEj%'";
+            $sql="SELECT * FROM Ejercicio WHERE nombreEj LIKE '%$this->nombreEj%'";
             if(($resultado=$this->mysqli->query($sql))){
                 return $resultado;
             }

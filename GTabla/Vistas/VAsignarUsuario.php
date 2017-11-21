@@ -67,12 +67,10 @@ class VAsignarUsuario {
             <head></head>
             <body>
                 <h2>Asignar usuarios</h2>
-<?php
-        echo "<p>Selecione los usuarios a los que asignar la tabla</p>";
-?>
+                <p>Selecione los usuarios sobre los que realizar la accion:</p>";
                 <form action="./CTabla.php" method="post">
                     <div>
-                        <p>Marque los ejercicios:</p>
+                        <p>Marque los usuarios:</p>
                     
 <?php
         echo "<input type='hidden' name='idTabla' value='$idTabla'/>";

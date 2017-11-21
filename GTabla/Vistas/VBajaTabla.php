@@ -41,7 +41,7 @@ class VBajaTabla {
         <html>
             <head></head>
             <body>
-                <h2>¿Desea borrar este ejercicio?</h2>
+                <h2>¿Desea borrar esta tabla?</h2>
                 <table>
                     <tr>
                         <td>Id de la tabla:</td>

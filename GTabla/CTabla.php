@@ -40,7 +40,6 @@ switch ($_REQUEST['action']){
         elseif(!isset($_REQUEST['ejercicios'])){
             $idTabla=$_REQUEST['idTabla'];
             $tabla=new MTabla($idTabla,"","");
-            $tabla->deleteAsignacionEj(); //borro los ej asignados previamente
             $tupla=$tabla->selectID();
             $modeloEj=new MEjercicio("","","");
             $ejercicios=$modeloEj->select();
@@ -63,9 +62,11 @@ switch ($_REQUEST['action']){
             $cantidades=$_REQUEST['cantidades'];
             
             $tabla=new MTabla($idTabla,"","");
+            $tabla->deleteAsignacionEj(); //borro los ej asignados previamente
             for($i=0;$i<count($ejercicios);$i++){
                 $tabla->asignarEjercicio($ejercicios[$i],$cantidades[$i]);
             }
+            new MESSAGE_View("Ejercicios asignados", "../index.php");
         }
         break;
     case 'baja':
@@ -82,7 +83,7 @@ switch ($_REQUEST['action']){
         }
         else{
             if($_REQUEST['confirmar']=="si"){ //si el usuario confirma q quiere borrar la sesion
-                $idSesion=$_REQUEST['idTabla'];
+                $idTabla=$_REQUEST['idTabla'];
 
                 $sesion=new MTabla($idTabla,"","");
                 $respuesta=$sesion->delete();
@@ -131,6 +132,7 @@ switch ($_REQUEST['action']){
             new VVerDetalleTabla();
         }
         else{
+            $nombreTabla=$_REQUEST['nombreTabla'];
             $modelo=new MTabla("",$nombreTabla,"");
             $tabla=$modelo->selectNombre();
             $modelo=new MTabla($tabla[0],"","");
@@ -155,7 +157,6 @@ switch ($_REQUEST['action']){
         }
         elseif(!isset($_REQUEST['usuarios'])){
             $idTabla=$_REQUEST['idTabla'];
-            $nombreTabla=$_REQUEST['nombreTabla'];
             $modelo=new MTabla($idTabla,"","");
             
             if($_REQUEST['opcion']=='asignar'){
