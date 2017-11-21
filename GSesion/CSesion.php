@@ -26,8 +26,14 @@ switch ($_REQUEST['action']){
         else{
             $idTabla=$_REQUEST['idTabla'];
             $nombreSesion=$_REQUEST['nombreSesion'];
-            $horaInicio=$_REQUEST['horaInicio'];
-            $horaFin=$_REQUEST['horaFin'];
+            
+            $fecha=$_REQUEST['fecha'];
+            $horaI=$_REQUEST['horaInicio'];
+            $horaF=$_REQUEST['horaFin'];
+            
+            $horaInicio=$fecha." ".$horaI;
+            $horaFin=$fecha." ".$horaF;
+            
             $comentario=$_REQUEST['comentario'];
             
             $sesion=new MSesion("",$idUser,$idTabla,$nombreSesion,$horaInicio,$horaFin,$comentario);
@@ -75,8 +81,14 @@ switch ($_REQUEST['action']){
             $idSesion=$_REQUEST['idSesion'];
             $idTabla=$_REQUEST['idTabla'];
             $nombreSesion=$_REQUEST['nombreSesion'];
-            $horaInicio=$_REQUEST['horaInicio'];
-            $horaFin=$_REQUEST['horaFin'];
+            
+            $fecha=$_REQUEST['fecha'];
+            $horaI=$_REQUEST['horaInicio'];
+            $horaF=$_REQUEST['horaFin'];
+            
+            $horaInicio=$fecha." ".$horaI;
+            $horaFin=$fecha." ".$horaF;
+            
             $comentario=$_REQUEST['comentario'];
             
             $sesion=new MSesion($idSesion,"",$idTabla,$nombreSesion,$horaInicio,$horaFin,$comentario);

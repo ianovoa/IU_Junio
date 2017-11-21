@@ -33,12 +33,16 @@ class VAltaSesion {
                         </select>
                     </div>
                     <div>
+                        <label for="fecha">Fecha:</label>
+                        <input type="date" name="fecha"/>
+                    </div>
+                    <div>
                         <label for="horaInicio">Hora de inicio:</label>
-                        <input type="timestamp" name="horaInicio"/>
+                        <input type="time" name="horaInicio"/>
                     </div>
                     <div>
                         <label for="horaFin">Hora de finalizacion:</label>
-                        <input type="datetime" name="horaFin"/>
+                        <input type="time" name="horaFin"/>
                     </div>
                     <div>
                         <label for="comentario">Comentario:</label><br>
