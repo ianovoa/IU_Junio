@@ -36,14 +36,6 @@
 							<div class="logo">
 								<a href="index.html"><img src="img/logo.png" alt="" width="20%"></a>
 							</div>
-							<div class="main-menubar d-flex align-items-center">
-								<nav class="hide">
-									<a href="index.html">Home</a>
-									<a href="generic.html">Generic</a>
-									<a href="elements.html">Elements</a>
-								</nav>
-								<div class="menu-bar"><span class="lnr lnr-menu"></span></div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -63,25 +55,23 @@
 		
 		<!-- Start Amazing Works Area -->
 		<div class="main-wrapper">
+		
 			<!-- Start Subscription Area -->
 			<section class="subscription-area">
 				<div class="container">
 					<div class="row justify-content-center">
 						<div class="col-lg-8">
 							<div class="section-title text-center">
-								<h2>Subscribe Newsletter</h2>
-								<p class="mb-0 mt-10">Can you imagine what we will be downloading in another </p>
+								<h2>Sube tu código</h2>
+								<p class="mb-0 mt-10">Prueba a subir aquí el código que desees analizar: </p>
 							</div>
 						</div>
 					</div>
 					<div class="row justify-content-center">
 						<div class="col-lg-6">
 							<div id="mc_embed_signup">
-								<form target="_blank" novalidate action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01" method="get" class="subscription relative">
-									<input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required>
-									<div style="position: absolute; left: -5000px;">
-										<input type="text" name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="">
-									</div>
+								<form target="_blank" action="controller/mainController.php" method="post" class="subscription relative">
+									<input type="file" name="CODE" required>
 									<button class="primary-btn"><span>Get Started</span><span class="lnr lnr-arrow-right"></span></button>
 									<div class="info"></div>
 								</form>
@@ -92,7 +82,6 @@
 			</section>
 			<!-- End Subscription Area -->
 			
-			<!-- Start Story Area -->
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-right">
@@ -108,7 +97,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- End Story Area -->
 
 			<!-- Start footer Area -->
 			<footer class="footer-area">
