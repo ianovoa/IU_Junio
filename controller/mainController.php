@@ -1,24 +1,30 @@
 <?php
 /**
- * En este archivo se detallara el controlador de ejercicio
+ * En este archivo se detallara el controlador
  *
  * @author iago
  */
-session_start();
-//incluidos todas las vistas y el modelo de ejercicio
-include '../model/MEjercicio.php';
-include '../view/VAltaEjercicio.php';
-include '../view/VBajaEjercicio.php';
-include '../view/VModificarEjercicio.php';
-include '../view/VConsultarEjercicio.php';
-include '../view/VVerDetalleEjercicio.php';
-include '../view/VPrincipalEjercicio.php';
-include '../view/VShowAllEjercicio.php';
-include '../view/VVerEjercicio.php';
-include '../view/MESSAGE_View.php';
-include "../core/Login.php";
-estaRegistrado();
+ 
+//Inicio sesion
+//session_start();
+
+//incluidos todas las vistas y el modelo
+//include '../model/MEjercicio.php';
+
 switch ($_REQUEST['action']){
+	case 'analizar': //se realiza el analisis del codigo
+		$dir_subida = '../CodigoAExaminar/';
+		$fichero_subido = $dir_subida . basename($_FILES['code']['name']);
+
+		if (move_uploaded_file($_FILES['fichero_usuario']['tmp_name'], $fichero_subido)) echo "El fichero es válido y se subió con éxito.\n";
+		else echo "¡Posible ataque de subida de ficheros!\n";
+		break;
+	
+	case 'verAnalisis': //se muestra el resultado del analisis
+		
+		break;
+	
+	
     case 'alta':
         if(!isset($_POST['nombreEj'])){
             new VAltaEjercicio();

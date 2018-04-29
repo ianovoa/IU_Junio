@@ -56,7 +56,7 @@
 		<!-- Start Amazing Works Area -->
 		<div class="main-wrapper">
 		
-			<!-- Start Subscription Area -->
+			<!-- Start upload Area -->
 			<section class="subscription-area">
 				<div class="container">
 					<div class="row justify-content-center">
@@ -70,9 +70,10 @@
 					<div class="row justify-content-center">
 						<div class="col-lg-6">
 							<div id="mc_embed_signup">
-								<form target="_blank" action="controller/mainController.php" method="post" class="subscription relative">
-									<input type="file" name="CODE" required>
-									<button class="primary-btn"><span>Get Started</span><span class="lnr lnr-arrow-right"></span></button>
+								<form target="_blank" action="controller/mainController.php" method="post" class="subscription relative" enctype="multipart/form-data">
+									<input type="hidden" name="MAX_FILE_SIZE" value="300000" />
+									<input type="file" name="code" required>
+									<button class="primary-btn" name="action" value="analizar"><span>Get Started</span><span class="lnr lnr-arrow-right"></span></button>
 									<div class="info"></div>
 								</form>
 							</div>
