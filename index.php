@@ -57,32 +57,34 @@
 		<div class="main-wrapper">
 		
 			<!-- Start upload Area -->
-			<section class="subscription-area">
+			<div class="white-bg">
+                <br>
 				<div class="container">
 					<div class="row justify-content-center">
 						<div class="col-lg-8">
-							<div class="section-title text-center">
-								<h2>Sube tu código</h2>
-								<p class="mb-0 mt-10">Prueba a subir aquí el código que desees analizar: </p>
-							</div>
+                            <div class="section-title text-center">
+                                <h2>Sube tu código</h2>
+                                <p class="mb-0 mt-10">Prueba a subir aquí el código que desees analizar: </p>
+                            </div>
 						</div>
 					</div>
+					
+					<br><br>
+					
 					<div class="row justify-content-center">
-						<div class="col-lg-6">
-							<div id="mc_embed_signup">
-								<form target="_blank" action="controller/mainController.php" method="post" class="subscription relative" enctype="multipart/form-data">
-									<input type="hidden" name="MAX_FILE_SIZE" value="300000" />
-									<input type="file" name="code" required>
-									<button class="primary-btn" name="action" value="analizar"><span>Get Started</span><span class="lnr lnr-arrow-right"></span></button>
-									<div class="info"></div>
-								</form>
-							</div>
-						</div>
+                        <div class="col-lg-6">
+                            <form action="controller/mainController.php?action=analizar" method="post" enctype="multipart/form-data" class="subscription relative">
+                                <input type="hidden" name="MAX_FILE_SIZE" value="300000"/>
+                                <input type="file" name="code" required>
+                                <button class="primary-btn" name="enviar"><span>Get Started</span><span class="lnr lnr-arrow-right"></span></button>
+                            </form>
+                        </div>
 					</div>
 				</div>
-			</section>
-			<!-- End Subscription Area -->
+			</div>
+			<!-- End upload Area -->
 			
+			<!-- Start text Area -->
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-right">
@@ -98,6 +100,7 @@
 					</div>
 				</div>
 			</div>
+			<!-- End text Area -->
 
 			<!-- Start footer Area -->
 			<footer class="footer-area">
@@ -114,13 +117,14 @@
 							<a href="#"><i class="fa fa-dribbble"></i></a>
 							<a href="#"><i class="fa fa-behance"></i></a>
 						</div>
-						<div class="copy-right-text">Copyright &copy; 2018 All rights reserved<i class="fa fa-heart"></i> by <a href="https://colorlib.com">Colorlib</a></div>
+						<div class="copy-right-text">Copyright &copy; 2018 All rights reserved</div>
 
 					</div>
 				</div>
 			</footer>
 			<!-- End footer Area -->
 		</div>
+		<!-- End Amazing Works Area -->
 
 		<script src="js/vendor/jquery-2.2.4.min.js"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>

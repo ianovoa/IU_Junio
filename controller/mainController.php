@@ -13,11 +13,8 @@
 
 switch ($_REQUEST['action']){
 	case 'analizar': //se realiza el analisis del codigo
-		$dir_subida = '../CodigoAExaminar/';
-		$fichero_subido = $dir_subida . basename($_FILES['code']['name']);
-
-		if (move_uploaded_file($_FILES['fichero_usuario']['tmp_name'], $fichero_subido)) echo "El fichero es válido y se subió con éxito.\n";
-		else echo "¡Posible ataque de subida de ficheros!\n";
+		$codeName=$_FILES['code']['name'];
+		move_uploaded_file($_FILES['code']['tmp_name'],'../CodigoAExaminar/'.$_FILES['code']['name']);
 		break;
 	
 	case 'verAnalisis': //se muestra el resultado del analisis
