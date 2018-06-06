@@ -8,7 +8,7 @@
 //incluidos todas las vistas y el modelo
 include '../controller/analizarController.php';
 include '../controller/confController.php';
-include '../view/analisisView.php';
+//include '../view/analisisView.php';
 
 switch ($_REQUEST['action']){
 	case 'analizar': //se realiza el análisis del codigo
@@ -38,6 +38,11 @@ switch ($_REQUEST['action']){
             new MESSAGE_View($respuesta, "../controller/CEjercicio.php?action=principal");
             header("location: mainController.php?action=verAnalisis");
         }
-        break;*/
+        break;
+        $directoriosConf=file('../conf/Directories.conf');
+		foreach ($directoriosConf as $num_línea => $linea) {
+            echo "$linea <br>";
+        }
+        */
 }
 ?>
