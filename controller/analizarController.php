@@ -30,9 +30,10 @@ function comprobarFileName(){
             $expRegular=str_replace('.','\.',$expRegular);
             $expRegular='/'.$expRegular.'/'; //crea la expresion regular necesaria para la busqueda
             for($j=0;$j<count($files);$j++){
-                if(strpbrk($files[$j],'.') && preg_match($expRegular,$files[$j])==0){
+                if(strpbrk($files[$j],'.') && $files[$j]!='.' && $files[$j]!='..' && preg_match($expRegular,$files[$j])==0){
                     $str=explode('/',$dirYName[0],2); //spq
                     $toret[$k]=$str[1].'/'.$files[$j];
+                    $k++;
                 }
             }
         }
