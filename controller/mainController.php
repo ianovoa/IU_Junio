@@ -18,8 +18,10 @@ switch ($_REQUEST['action']){
             $directorios=comprobarDirectorio(); //comprueba que los directorios sean los de Directories.conf
             $fileName=comprobarFileName(); //comprueba que los archivos tengan nombres permitidos en File.conf
             $tipoFile=comprobarTipoFile(); //comprueba que los archivos tengan el tipo correcto
-            $cabeceras=comprobarCabeceras(); //comprueba la cabecera de los archivos de código
-            $comentarios=comprobarComentarios(); //comprueba los comentarios de los archivos de código
+            $cabeceras=comprobarCabeceras(''); //comprueba la cabecera de los archivos de código
+            $comentariosFun=comprobarComentariosFuncion(''); //comprueba los comentarios de los archivos de código (funciones)
+            $comentariosCon=comprobarComentariosControl(''); //comprueba los comentarios de los archivos de código (e. de control)
+            $soloIndex=comprobarSoloIndex(); //comprueba q en la caepeta raiz solo se halle el index (boolean)
             
             $vistaAnalisis=new analisisView($directorios,$fileName,$tipoFile,$cabeceras,$comentarios); //muestra los resultados del analisis
 		}

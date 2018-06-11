@@ -37,7 +37,7 @@ function comprobarFileName(){
     return $toret;
 }
 
-//comprueba que los archivos tengan el tipo correcto
+//caca
 function comprobarTipoFile(){
     $k=0;
     if($files=@scandir('../CodigoAExaminar/Model')){
@@ -154,11 +154,10 @@ function comprobarCabeceras($dirOr){
             $toret=array_merge($toret,$recur);
         }
     }
-    if(!isset($toret)) $toret=array();
     return $toret;
 }
 
-//comprueba los comentarios de los archivos de código (funciones)
+//comprueba los comentarios de los archivos de código
 function comprobarComentariosFuncion($dirOr){
     $dir='../CodigoAExaminar/'.$dirOr;
     $files=scandir($dir);
@@ -169,9 +168,9 @@ function comprobarComentariosFuncion($dirOr){
                 else $k=0;
                 $code=file($dir.'/'.$files[$i],FILE_IGNORE_NEW_LINES);
                 for($j=0;$j<count($code);$j++){ //leemos el codigo
-                    if(preg_match('/^[A-Za-z][\w\s]+\((\$?[A-Za-z][\w\s]*,?)*\)\{/',$code[$j],$coincidencia)==1 && strpos($code[$j],'if')===false && strpos($code[$j],'for')===false && strpos($code[$j],'while')===false  &&strpos($code[$j],'class')===false  && strpos($code[$j],'foreach')===false && strpos($code[$j],'switch')===false && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
+                    if(preg_match('/^[A-Za-z][\w\s]+\((\$?[A-Za-z][\w\s]*,?)*\)\{/',$code[$j],$coincidencia)==1 && strpos($code[$j],'if')===false && strpos($code[$j],'for')===false && strpos($code[$j],'while')===false  && strpos($code[$j],'foreach')===false && strpos($code[$j],'switch')===false && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
                         $toret[$k][0]=$dirOr.'/'.$files[$i];
-                        $toret[$k][]=$coincidencia[0].' (linea '.($j+1).')';
+                        $toret[$k][]=$coincidencia;
                     }
                 }
             }
@@ -182,35 +181,6 @@ function comprobarComentariosFuncion($dirOr){
             $toret=array_merge($toret,$recur);
         }
     }
-    if(!isset($toret)) $toret=array();
-    return $toret;
-}
-
-//comprueba los comentarios de los archivos de código (e. de control)
-function comprobarComentariosControl($dirOr){
-    $dir='../CodigoAExaminar/'.$dirOr;
-    $files=scandir($dir);
-    for($i=0;$i<count($files);$i++){
-        if(!is_dir($dir.'/'.$files[$i])){
-            if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
-                if(isset($toret)) $k=count($toret);
-                else $k=0;
-                $code=file($dir.'/'.$files[$i],FILE_IGNORE_NEW_LINES);
-                for($j=0;$j<count($code);$j++){ //leemos el codigo
-                    if((preg_match('/(else)?if\s?\(.+\)\{/',$code[$j],$coincidencia)==1 || preg_match('/for(each)?\s?\(.+\)\{/',$code[$j],$coincidencia)==1 || preg_match('/do\s?\{/',$code[$j],$coincidencia)==1 || preg_match('/while\s?\(.+\)\{/',$code[$j],$coincidencia)==1 || preg_match('/switch\s?\(.+\)\{/',$code[$j],$coincidencia)==1) && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
-                        $toret[$k][0]=$dirOr.'/'.$files[$i];
-                        $toret[$k][]=$coincidencia[0].' (linea '.($j+1).')';
-                    }
-                }
-            }
-        }
-        elseif(!strpbrk($files[$i],'.')){
-            $recur=comprobarComentariosControl($dirOr.'/'.$files[$i]);
-            if(!isset($toret)) $toret=array();
-            $toret=array_merge($toret,$recur);
-        }
-    }
-    if(!isset($toret)) $toret=array();
     return $toret;
 }
 
