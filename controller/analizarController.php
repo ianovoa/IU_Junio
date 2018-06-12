@@ -5,8 +5,29 @@
  * @author iago
  */
 
+//incluida la vista
+include '../view/analisisView.php';
+
+switch ($_REQUEST['action']){
+	case 'analizar': //se realiza el análisis del codigo
+		$codeName=$_FILES['code']['name'];
+		if(!move_uploaded_file($_FILES['code']['tmp_name'],$_SERVER['DOCUMENT_ROOT'].'/CodigoAExaminar/'.$_FILES['code']['name'])) echo $codeName." no está se ha ido a por tabaco";
+		else{
+            $directorios=comprobarDirectorio(); //comprueba que los directorios sean los de Directories.conf
+            $fileName=comprobarFileName(); //comprueba que los archivos tengan nombres permitidos en File.conf
+            $tipoFile=comprobarTipoFile(); //comprueba que los archivos tengan el tipo correcto
+            $cabeceras=comprobarCabeceras(''); //comprueba la cabecera de los archivos de código
+            $comentariosFun=comprobarComentariosFuncion(''); //comprueba los comentarios de los archivos de código (funciones)
+            $comentariosCon=comprobarComentariosControl(''); //comprueba los comentarios de los archivos de código (e. de control)
+            $soloIndex=comprobarSoloIndex(); //comprueba q en la caepeta raiz solo se halle el index (boolean)
+            new analisisView($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$soloIndex); //muestra los resultados del analisis
+		}
+		break;
+}
+
 //comprueba que los directorios sean los de Directories.conf
 function comprobarDirectorio(){
+    $toret=array();
     $directoriosConf=file('../conf/Directories.conf',FILE_IGNORE_NEW_LINES); //guarda en un array los directorios a comprobar
     for($i=0;$i<count($directoriosConf);$i++){
         if(!@scandir('../'.$directoriosConf[$i])){ //si no existe una dir se guarda en el array de errores
@@ -19,6 +40,7 @@ function comprobarDirectorio(){
 
 //comprueba que los archivos tengan nombres permitidos en File.conf
 function comprobarFileName(){
+    $toret=array();
     $fileConf=file('../conf/Files.conf',FILE_IGNORE_NEW_LINES); //guarda en un array los nombres a comprobar
     for($i=0;$i<count($fileConf);$i++){
         $dirYName=explode(':',$fileConf[$i],2); //array: 0 dir, 1 name
@@ -39,6 +61,7 @@ function comprobarFileName(){
 
 //comprueba que los archivos tengan el tipo correcto
 function comprobarTipoFile(){
+    $toret=array();
     $k=0;
     if($files=@scandir('../CodigoAExaminar/Model')){
         for($i=0;$i<count($files);$i++){
@@ -54,7 +77,7 @@ function comprobarTipoFile(){
                 }
                 if(!$tipoCorrecto){
                     $toret[$k][0]=$files[$i];
-                    $toret[$k][1]='model';
+                    $toret[$k][1]='no es una definicion de clase';
                     $k++;
                 }
             }
@@ -74,7 +97,7 @@ function comprobarTipoFile(){
                 }
                 if(!$tipoCorrecto){
                     $toret[$k][0]=$files[$i];
-                    $toret[$k][1]='view';
+                    $toret[$k][1]='no es una definicion de clase';
                     $k++;
                 }
             }
@@ -94,12 +117,13 @@ function comprobarTipoFile(){
                 }
                 if(!$tipoCorrecto){
                     $toret[$k][0]=$files[$i];
-                    $toret[$k][1]='controller';
+                    $toret[$k][1]='no es un script php';
                     $k++;
                 }
             }
         }
     }
+    return $toret;
 }
 
 //comprueba la cabecera de los archivos de código

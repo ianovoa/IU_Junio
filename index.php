@@ -68,17 +68,23 @@
                             </div>
 						</div>
 					</div>
-					
 					<br><br>
-					
 					<div class="row justify-content-center">
                         <div class="col-lg-6">
-                            <form action="controller/mainController.php?action=analizar" method="post" enctype="multipart/form-data" class="subscription relative">
+                            <form action="controller/analizarController.php?action=analizar" method="post" enctype="multipart/form-data" class="subscription relative">
                                 <input type="hidden" name="MAX_FILE_SIZE" value="300000"/>
                                 <input type="file" name="code" required>
                                 <button class="primary-btn" name="enviar"><span>Get Started</span><span class="lnr lnr-arrow-right"></span></button>
                             </form>
                         </div>
+					</div>
+					<br><br>
+					<div class="row justify-content-center">
+						<div class="col-lg-8">
+                            <div class="section-title text-center">
+                                <p class="mb-0 mt-10"><u>Siempre puedes editar la configuración del análisis</u> <a href="controller/confController.php?action=verConf"><b>aquí</b></a></p>
+                            </div>
+						</div>
 					</div>
 				</div>
 			</div>
