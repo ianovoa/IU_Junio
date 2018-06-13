@@ -8,11 +8,11 @@
 */
 
 class analisisView{
-    function __construct($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$soloIndex) {
-        $this->render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$soloIndex);
+    function __construct($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex) {
+        $this->render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex);
     }
     
-    function render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$soloIndex){
+    function render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex){
 ?> 
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -77,7 +77,7 @@ class analisisView{
 				<div class="container">
 					<div class="section-top-border text-center">
 						<h3 class="mb-30">Directorios obligatorios</h3>
-						<div class="row">
+						<div class="row justify-content-center">
 							<div class="col-md-10">
 								<p class="sample-text">A continuacion se listarán los directorios especificados en el fichero Directories.conf que no se encuentran en el código analizado:</p>
 <?php
@@ -107,7 +107,7 @@ class analisisView{
 				<div class="container">
 					<div class="section-top-border text-center">
 						<h3 class="mb-30">Nombre de los ficheros</h3>
-						<div class="row">
+						<div class="row justify-content-center">
 							<div class="col-md-10">
 								<p class="sample-text">A continuacion se listarán los ficheros cuyo nombre no coindida con el patrón especificado para cada directorio en el fichero Files.conf:</p>
 <?php
@@ -137,7 +137,7 @@ class analisisView{
 				<div class="container">
 					<div class="section-top-border text-center">
 						<h3 class="mb-30">Tipo de los ficheros</h3>
-						<div class="row">
+						<div class="row justify-content-center">
 							<div class="col-md-10">
 								<p class="sample-text">A continuacion se listarán los ficheros que no sean definiciones de clases en el directorio Model o View, o que no sean scripts php en el directorio Controller:</p>
 <?php
@@ -167,7 +167,7 @@ class analisisView{
 				<div class="container">
 					<div class="section-top-border text-center">
 						<h3 class="mb-30">Cabeceras de los ficheros</h3>
-						<div class="row">
+						<div class="row justify-content-center">
 							<div class="col-md-10">
 								<p class="sample-text">A continuacion se listarán los ficheros que no recojan información al principio del archivo sobre el autor, la fecha o la función del código:</p>
 <?php
@@ -208,7 +208,7 @@ class analisisView{
 				<div class="container">
 					<div class="section-top-border text-center">
 						<h3 class="mb-30">Funciones comentadas</h3>
-						<div class="row">
+						<div class="row justify-content-center">
 							<div class="col-md-10">
 								<p class="sample-text">A continuacion se listarán las funciones (y sus ficheros) que no recojan información al principio de la misma respecto a su función:</p>
 <?php
@@ -248,7 +248,7 @@ class analisisView{
 				<div class="container">
 					<div class="section-top-border text-center">
 						<h3 class="mb-30">Funciones comentadas</h3>
-						<div class="row">
+						<div class="row justify-content-center">
 							<div class="col-md-10">
 								<p class="sample-text">A continuacion se listarán las estructuras de control (y sus ficheros) que no recojan información al principio de la misma respecto a su función:</p>
 <?php
@@ -287,8 +287,48 @@ class analisisView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
+						<h3 class="mb-30">Variables comentadas</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text">A continuacion se listarán las variables (y sus ficheros) que no recojan información en su primer uso respecto a su función:</p>
+<?php
+        if(count($comentariosVar)==0){
+?>
+                                <p class="text-left"><b>Todos los archivos tienen recogida la informacion mencionada</b></p>
+<?php
+        }
+        else{
+            for($i=0;$i<count($comentariosVar);$i++){
+?>
+                                <p class="text-left"><b>
+                                    <u><?=$comentariosVar[$i][0]?></u>, le falta comentario a:<br>
+<?php
+                $max=count($comentariosVar[$i]);
+                for($j=1;$j<count($comentariosVar[$i]);$j++){
+?>
+                                    <?=$comentariosVar[$i][$j]?><br>
+<?php
+                }
+?>
+                                </b></p>
+<?php
+            }
+        }
+?>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End text Area -->
+
+			<!-- Start text Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
 						<h3 class="mb-30">Index solitario</h3>
-						<div class="row">
+						<div class="row justify-content-center">
 							<div class="col-md-10">
 								<p class="sample-text">El index es el único archivo (no directorio) que se encuentra en la raiz del codigo subido: 
 <?php

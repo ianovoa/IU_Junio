@@ -72,7 +72,7 @@
 					<div class="row justify-content-center">
                         <div class="col-lg-6">
                             <form action="controller/analizarController.php?action=analizar" method="post" enctype="multipart/form-data" class="subscription relative">
-                                <input type="hidden" name="MAX_FILE_SIZE" value="300000"/>
+                                <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
                                 <input type="file" name="code" required>
                                 <button class="primary-btn" name="enviar"><span>Get Started</span><span class="lnr lnr-arrow-right"></span></button>
                             </form>

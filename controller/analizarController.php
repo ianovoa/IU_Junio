@@ -19,8 +19,9 @@ switch ($_REQUEST['action']){
             $cabeceras=comprobarCabeceras(''); //comprueba la cabecera de los archivos de código
             $comentariosFun=comprobarComentariosFuncion(''); //comprueba los comentarios de los archivos de código (funciones)
             $comentariosCon=comprobarComentariosControl(''); //comprueba los comentarios de los archivos de código (e. de control)
+            $comentariosVar=comprobarComentariosVar(''); //comprueba los comentarios de los archivos de código (variables)
             $soloIndex=comprobarSoloIndex(); //comprueba q en la caepeta raiz solo se halle el index (boolean)
-            new analisisView($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$soloIndex); //muestra los resultados del analisis
+            new analisisView($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex); //muestra los resultados del analisis
 		}
 		break;
 }
@@ -230,6 +231,42 @@ function comprobarComentariosControl($dirOr){
         }
         elseif(!strpbrk($files[$i],'.')){
             $recur=comprobarComentariosControl($dirOr.'/'.$files[$i]);
+            if(!isset($toret)) $toret=array();
+            $toret=array_merge($toret,$recur);
+        }
+    }
+    if(!isset($toret)) $toret=array();
+    return $toret;
+}
+
+//comprueba los comentarios de los archivos de código (variables)
+function comprobarComentariosVar($dirOr){
+    $dir='../CodigoAExaminar/'.$dirOr;
+    $files=scandir($dir);
+    for($i=0;$i<count($files);$i++){
+        if(!is_dir($dir.'/'.$files[$i])){
+            if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
+                if(isset($toret)) $k=count($toret);
+                else $k=0;
+                $variables=array();
+                $code=file($dir.'/'.$files[$i],FILE_IGNORE_NEW_LINES);
+                for($j=0;$j<count($code);$j++){ //leemos el codigo
+                    if(preg_match('/(\$?[A-Za-z]\w*)\s?=/',$code[$j],$coincidencia)==1 && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
+                        $sinRegistrar=true;
+                        for($x=0;$x<count($variables);$x++){
+                            if($variables[$x]==$coincidencia[1]) $sinRegistrar=false;
+                        }
+                        if($sinRegistrar){
+                            $toret[$k][0]=$dirOr.'/'.$files[$i];
+                            $toret[$k][]=$coincidencia[1].' (linea '.($j+1).')';
+                            $variables[]=$coincidencia[1];
+                        }
+                    }
+                }
+            }
+        }
+        elseif(!strpbrk($files[$i],'.')){
+            $recur=comprobarComentariosVar($dirOr.'/'.$files[$i]);
             if(!isset($toret)) $toret=array();
             $toret=array_merge($toret,$recur);
         }
