@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * En este archivo se detallará el controlador del análisis del código
  * 

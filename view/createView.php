@@ -7,12 +7,12 @@
  * Fecha: 12/11/2017
 */
 
-class editView{
-    function __construct($directorio,$patron){
-        $this->render($directorio,$patron);
+class createView{
+    function __construct(){
+        $this->render();
     }
     
-    function render($directorio,$patron){
+    function render(){
 ?> 
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -61,7 +61,7 @@ class editView{
 					<div class="row justify-content-center generic-height align-items-center">
 						<div class="col-lg-8">
 							<div class="banner-content text-center">
-								<h1 class="text-white">Añadir/Editar Patrón</h1>
+								<h1 class="text-white">Añadir Directorio</h1>
 							</div>
 						</div>
 					</div>
@@ -76,23 +76,14 @@ class editView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-                        <p class="sample-text">Procure utilizar unicamente caracteres permitidos para nombres de ficheros (utilice % para señalar una cadena cualquiera de caracteres). Si solo desea borrar el actual patrón pulse borrar o envíe un patrón vacio.</p>
-<?php
-        if($patron!=''){
-?>
-                        <p class="sample-text">El patrón actual es: <u><?=$patron?></u>.</p>
-<?php
-        }
-?>
-						<form action="../controller/confController.php?action=edit" method="post">
-                            <input type="hidden" name="directorio" value="<?=$directorio?>"/>
+                        <p class="sample-text">Procure utilizar unicamente caracteres permitidos para nombres de directorios.</p>
+						<form action="../controller/confController.php?action=create" method="post">
 							<div class="mt-8">
-								<input type="text" name="patron" placeholder="Nuevo Patrón" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nuevo Patrón'" class="single-input"/>
+								<input type="text" name="directorio" placeholder="Nuevo Directorio" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nuevo Directorio'" required class="single-input"/>
 							</div>
 							<br>
 							<div class="mt-8">
                                 <input type="submit" name="orden" value="Enviar"/>
-                                <input type="submit" name="orden" value="Borrar"/>
 							</div>
 						</form>
 					</div>

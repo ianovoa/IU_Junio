@@ -8,6 +8,7 @@
 //incluidas la vistas
 include_once '../view/verConfView.php';
 include_once '../view/editView.php';
+include_once '../view/createView.php';
 
 switch ($_REQUEST['action']){
     case 'verConf': //se ve la configuración
@@ -19,7 +20,7 @@ switch ($_REQUEST['action']){
         new verConfView($directoriosConf);
         break;
 
-        case 'loadEdit': //se edita el patron para el nombre del archivo
+        case 'loadEdit': //se edita el patron para el nombre del archivo o (se borra)
             $patron='';
             $directorio=$_GET['directorio'];
             $directorio='CodigoAExaminar/'.$directorio;
@@ -41,7 +42,7 @@ switch ($_REQUEST['action']){
                 $aux=explode(':',$patrones[$i],2);
                 if($aux[0]!=$directorio) $newsPatrones[]=$patrones[$i].PHP_EOL;
             }
-            if($orden=='Enviar') $newsPatrones[]=$directorio.':'.$patron.PHP_EOL;
+            if($orden=='Enviar' && $patron!='') $newsPatrones[]=$directorio.':'.$patron.PHP_EOL;
             file_put_contents('../conf/Files.conf',$newsPatrones,LOCK_EX);
             header('Location: confController.php?action=verConf');
             break;
@@ -67,7 +68,20 @@ switch ($_REQUEST['action']){
             header('Location: confController.php?action=verConf');
             break;
         
+        case 'loadCreate': //se añade un directorio
+            new createView();
+            break;
+            
         case 'create': //se añade un directorio
-        
+            $directorio=$_POST['directorio'];
+            $directorio='CodigoAExaminar/'.$directorio.PHP_EOL;
+            file_put_contents('../conf/Directories.conf',$directorio,FILE_APPEND | LOCK_EX);
+            header('Location: confController.php?action=verConf');
+            break;
+            
+        case 'default': //se reinicia la configuración
+            copy('../conf/Directories_default.conf','../conf/Directories.conf');
+            copy('../conf/Files_default.conf','../conf/Files.conf');
+            header('Location: confController.php?action=verConf');
             break;
 }

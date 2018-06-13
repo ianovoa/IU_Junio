@@ -127,7 +127,9 @@ class verConfView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-						<a href="../controller/confController.php?action=create">Añadir nuevo directorio <img src="../img/add.png" alt="" width="3%"></a>
+						<a href="../controller/confController.php?action=loadCreate">Añadir nuevo directorio <img src="../img/add.png" alt="" width="3%"></a>
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						<a href="../controller/confController.php?action=default">Configuración predeterminada <img src="../img/default.png" alt="" width="3%"></a>
 					</div>
 				</div>
 			</div>
