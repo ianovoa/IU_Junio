@@ -7,12 +7,12 @@
  * Fecha: 12/11/2017
 */
 
-class verConfView{
-    function __construct($directoriosConf){
-        $this->render($directoriosConf);
+class editView{
+    function __construct($directorio,$patron){
+        $this->render($directorio,$patron);
     }
     
-    function render($directoriosConf){
+    function render($directorio,$patron){
 ?> 
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -61,7 +61,7 @@ class verConfView{
 					<div class="row justify-content-center generic-height align-items-center">
 						<div class="col-lg-8">
 							<div class="banner-content text-center">
-								<h1 class="text-white">Configuración del Análisis</h1>
+								<h1 class="text-white">Añadir/Editar Patrón</h1>
 							</div>
 						</div>
 					</div>
@@ -72,62 +72,29 @@ class verConfView{
 		<!-- Start Amazing Works Area -->
 		<div class="main-wrapper">
 
-            <div class="white-bg">
-				<div class="container">
-                    <div class="section-top-border">
-                        <h3 class="mb-30">Tabla de configuración</h3>
-                        <div class="progress-table-wrap">
-							<div class="progress-table">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <td width="40%"><b>Directorios</b></td>
-                                            <td width="30%" align=center><b>Editar Patrón</b></td>
-                                            <td width="30%" align=center><b>Borrar</b></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-<?php
-        for($i=0;$i<count($directoriosConf);$i++){
-?>
-                                        <tr>
-                                            <td width="40%">
-                                                <?=$directoriosConf[$i]?>
-                                            </td>
-                                            <td width="30%" align=center>
-                                                <a href="../controller/confController.php?action=loadEdit&directorio=<?=$directoriosConf[$i]?>"><img src="../img/edit.png" alt="" width="7%"></a>
-                                            </td>
-                                            <td width="30%" align=center>
-<?php
-            if($directoriosConf[$i]=='Model' || $directoriosConf[$i]=='Controller' || $directoriosConf[$i]=='View'){
-?>
-                                                No se puede borrar
-<?php
-            }
-            else{
-?>
-                                                <a href="../controller/confController.php?action=delete&directorio=<?=$directoriosConf[$i]?>"><img src="../img/delete.png" alt="" width="7%"></a>
-<?php
-            }
-?>
-                                            </td>
-                                        </tr>
-<?php
-        }
-?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-			<!-- Start text Area -->
+            <!-- Start form Area -->
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-						<a href="../controller/confController.php?action=create">Añadir nuevo directorio <img src="../img/add.png" alt="" width="3%"></a>
+                        <p class="sample-text">Procure utilizar unicamente caracteres permitidos para nombres de ficheros (utilice % para señalar una cadena cualquiera de caracteres). Si solo desea borrar el actual patrón pulse borrar.</p>
+<?php
+        if($patron!=''){
+?>
+                        <p class="sample-text">El patrón actual es: <u><?=$patron?></u>.</p>
+<?php
+        }
+?>
+						<form action="../controller/confController.php?action=edit" method="post">
+                            <input type="hidden" name="directorio" value="<?=$directorio?>"/>
+							<div class="mt-8">
+								<input type="text" name="patron" placeholder="Nuevo Patrón" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nuevo Patrón'" class="single-input"/>
+							</div>
+							<br>
+							<div class="mt-8">
+                                <input type="submit" name="orden" value="Enviar"/>
+                                <input type="submit" name="orden" value="Borrar"/>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
@@ -137,7 +104,7 @@ class verConfView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-						<a href="../index.php"><img src="../img/back.png" alt="" width="8%"></a>
+						<a href="../controller/confController.php?action=verConf"><img src="../img/back.png" alt="" width="8%"></a>
 					</div>
 				</div>
 			</div>
@@ -159,7 +126,6 @@ class verConfView{
 							<a href="#"><i class="fa fa-behance"></i></a>
 						</div>
 						<div class="copy-right-text">Copyright &copy; 2018 All rights reserved</div>
-
 					</div>
 				</div>
 			</footer>
@@ -181,3 +147,4 @@ class verConfView{
     }
 }
 ?>
+ 

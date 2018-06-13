@@ -6,7 +6,7 @@
  */
 
 //incluida la vista
-include '../view/analisisView.php';
+include_once '../view/analisisView.php';
 
 switch ($_REQUEST['action']){
 	case 'analizar': //se realiza el análisis del codigo
