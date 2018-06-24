@@ -61,7 +61,7 @@ class createView{
 					<div class="row justify-content-center generic-height align-items-center">
 						<div class="col-lg-8">
 							<div class="banner-content text-center">
-								<h1 class="text-white">Añadir Directorio</h1>
+								<h1 class="text-white">Configuración del Análisis</h1>
 							</div>
 						</div>
 					</div>

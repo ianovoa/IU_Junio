@@ -1,6 +1,6 @@
 <?php
 /**
- * Este archivo contiene una vista que enseña el resultado del analisis
+ * Este archivo contiene una vista que enseña la Configuración
  *
  * @author iago
  *
@@ -75,14 +75,14 @@ class verConfView{
             <div class="white-bg">
 				<div class="container">
                     <div class="section-top-border">
-                        <h3 class="mb-30">Tabla de configuración</h3>
+                        <h3 class="mb-30">Tabla de Directorios</h3>
                         <div class="progress-table-wrap">
 							<div class="progress-table">
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <td width="40%"><b>Directorios</b></td>
-                                            <td width="30%" align=center><b>Editar Patrón</b></td>
+                                            <td width="30%" align=center><b>Ver Patrones</b></td>
                                             <td width="30%" align=center><b>Borrar</b></td>
                                         </tr>
                                     </thead>
@@ -95,7 +95,7 @@ class verConfView{
                                                 <?=$directoriosConf[$i]?>
                                             </td>
                                             <td width="30%" align=center>
-                                                <a href="../controller/confController.php?action=loadEdit&directorio=<?=$directoriosConf[$i]?>"><img src="../img/edit.png" alt="" width="7%"></a>
+                                                <a href="../controller/confController.php?action=verPatrones&directorio=<?=$directoriosConf[$i]?>"><img src="../img/view.png" alt="" width="7%"></a>
                                             </td>
                                             <td width="30%" align=center>
 <?php

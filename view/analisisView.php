@@ -109,7 +109,7 @@ class analisisView{
 						<h3 class="mb-30">Nombre de los ficheros</h3>
 						<div class="row justify-content-center">
 							<div class="col-md-10">
-								<p class="sample-text">A continuacion se listarán los ficheros cuyo nombre no coindida con el patrón especificado para cada directorio en el fichero Files.conf:</p>
+								<p class="sample-text">A continuacion se listarán los ficheros cuyo nombre no coindida con el patrón especificado, además de los ficheros requeridos, para cada directorio en el fichero Files.conf:</p>
 <?php
         if(count($fileName)==0){
 ?>
@@ -330,16 +330,16 @@ class analisisView{
 						<h3 class="mb-30">Index solitario</h3>
 						<div class="row justify-content-center">
 							<div class="col-md-10">
-								<p class="sample-text">El index es el único archivo (no directorio) que se encuentra en la raiz del codigo subido: 
+								<p class="sample-text">El index es el único archivo (no directorio) que se encuentra en la raiz del codigo subido: <b>
 <?php
         if($soloIndex){
 ?>
-                                <b>SI</b></p>
+                                SI</b></p>
 <?php
         }
         else{
 ?>
-                                <b>NO</b></p>
+                                NO</b></p>
 <?php
         }
 ?>

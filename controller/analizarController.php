@@ -11,7 +11,7 @@ include_once '../view/analisisView.php';
 switch ($_REQUEST['action']){
 	case 'analizar': //se realiza el análisis del codigo
 		$codeName=$_FILES['code']['name'];
-		if(!move_uploaded_file($_FILES['code']['tmp_name'],$_SERVER['DOCUMENT_ROOT'].'/CodigoAExaminar/'.$_FILES['code']['name'])) echo $codeName." no está se ha ido a por tabaco";
+		if(!move_uploaded_file($_FILES['code']['tmp_name'],'../CodigoAExaminar/'.$_FILES['code']['name'])) echo $codeName." no está se ha ido a por tabaco";
 		else{
             $directorios=comprobarDirectorio(); //comprueba que los directorios sean los de Directories.conf
             $fileName=comprobarFileName(); //comprueba que los archivos tengan nombres permitidos en File.conf
@@ -44,15 +44,27 @@ function comprobarFileName(){
     $toret=array();
     $fileConf=file('../conf/Files.conf',FILE_IGNORE_NEW_LINES); //guarda en un array los nombres a comprobar
     for($i=0;$i<count($fileConf);$i++){
-        $dirYName=explode(':',$fileConf[$i],2); //array: 0 dir, 1 name
-        if($files=@scandir('../'.$dirYName[0])){
-            $expRegular=str_replace('%','[0-9A-Za-z]+',$dirYName[1]);
-            $expRegular=str_replace('.','\.',$expRegular);
-            $expRegular='/'.$expRegular.'/'; //crea la expresion regular necesaria para la busqueda
-            for($j=0;$j<count($files);$j++){
-                if(!is_dir($files[$j]) && preg_match($expRegular,$files[$j])==0){
-                    $str=explode('/',$dirYName[0],2); //spq
-                    $toret[]=$str[1].'/'.$files[$j];
+        preg_match('~(.+)/(.+\..+)~',$fileConf[$i],$dirYName); //array: 1 dir, 2 name
+        if($files=@scandir('../'.$dirYName[1])){
+            if(strpbrk($dirYName[2],'%')==false){
+                $faltaFichero=true;
+                for($j=0;$j<count($files);$j++){
+                    if($files[$j]==$dirYName[2]) $faltaFichero=false;
+                }
+                if($faltaFichero){
+                    $str=explode('/',$dirYName[1],2); //spq
+                    $toret[]='Fichero requerido inexistente: '.$str[1].'/'.$dirYName[2];
+                }
+            }
+            else{
+                $expRegular=str_replace('%','[0-9A-Za-z]+',$dirYName[2]);
+                $expRegular=str_replace('.','\.',$expRegular);
+                $expRegular='/'.$expRegular.'/'; //crea la expresion regular necesaria para la busqueda
+                for($j=0;$j<count($files);$j++){
+                    if(!is_dir($files[$j]) && preg_match($expRegular,$files[$j])==0){
+                        $str=explode('/',$dirYName[1],2); //spq
+                        $toret[]=$str[1].'/'.$files[$j];
+                    }
                 }
             }
         }

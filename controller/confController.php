@@ -9,6 +9,7 @@
 include_once '../view/verConfView.php';
 include_once '../view/editView.php';
 include_once '../view/createView.php';
+include_once '../view/verPatronView.php';
 
 switch ($_REQUEST['action']){
     case 'verConf': //se ve la configuración
@@ -18,6 +19,22 @@ switch ($_REQUEST['action']){
             $directoriosConf[$i]=$str[1];
         }
         new verConfView($directoriosConf);
+        break;
+        
+    case 'verPatrones': //se muestra el patron para el nombre del archivo
+        $patron='';
+        $archivosRequeridos=array();
+        $directorio=$_GET['directorio'];
+        $filesConf=file('../conf/Files.conf',FILE_IGNORE_NEW_LINES);
+        for($i=0;$i<count($filesConf);$i++){
+            $expRegular='~CodigoAExaminar/'.$directorio.'/(.+\..+)~';
+            preg_match($expRegular,$filesConf[$i],$name); //array: 1 name
+            if(count($name)>0){
+                if(strpbrk($name[1],'%')==false) $archivosRequeridos[]=$name[1];
+                else $patron=$name[1];
+            }
+        }
+        new verPatronView($directorio,$patron,$archivosRequeridos);
         break;
 
         case 'loadEdit': //se edita el patron para el nombre del archivo o (se borra)

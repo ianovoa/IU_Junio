@@ -1,18 +1,18 @@
 <?php
 /**
- * Este archivo contiene una vista que enseña el resultado del analisis
+ * Este archivo contiene una vista que enseña la Configuración
  *
  * @author iago
  *
  * Fecha: 12/11/2017
 */
 
-class editView{
-    function __construct($directorio,$patron){
-        $this->render($directorio,$patron);
+class verPatronView{
+    function __construct($directorio,$patron,$archivosRequeridos){
+        $this->render($directorio,$patron,$archivosRequeridos);
     }
     
-    function render($directorio,$patron){
+    function render($directorio,$patron,$archivosRequeridos){
 ?> 
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -72,29 +72,89 @@ class editView{
 		<!-- Start Amazing Works Area -->
 		<div class="main-wrapper">
 
-            <!-- Start form Area -->
+            <!-- Start text Area -->
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-                        <p class="sample-text">Procure utilizar unicamente caracteres permitidos para nombres de ficheros (utilice % para señalar una cadena cualquiera de caracteres). Si solo desea borrar el actual patrón pulse borrar o envíe un patrón vacio.</p>
+						<h3 class="mb-30">Patrón de <?=$directorio?></h3>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text">El nombre de los archivos de <?=$directorio?> han de cumplir con el siguiente patrón:</p>
 <?php
-        if($patron!=''){
+        if($patron==''){
 ?>
-                        <p class="sample-text">El patrón actual es: <u><?=$patron?></u>.</p>
+                                <p class="sample-text">El directorio <?=$directorio?> no tiene un patron asignado (<a href="../controller/confController.php?action=loadEdit&directorio=<?=$directorio?>"><u>añadir patrón</u></a>)</p>
+<?php
+        }
+        else{
+?>
+                                <p class="sample-text"><b><?=$patron?></b> (<a href="../controller/confController.php?action=loadEdit&directorio=<?=$directorio?>"><u>editar patrón</u></a>)</p>
 <?php
         }
 ?>
-						<form action="../controller/confController.php?action=edit" method="post">
-                            <input type="hidden" name="directorio" value="<?=$directorio?>"/>
-							<div class="mt-8">
-								<input type="text" name="patron" placeholder="Nuevo Patrón" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nuevo Patrón'" class="single-input"/>
 							</div>
-							<br>
-							<div class="mt-8">
-                                <input type="submit" name="orden" value="Enviar"/>
-                                <input type="submit" name="orden" value="Borrar"/>
-							</div>
-						</form>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End text Area -->
+
+            <div class="white-bg">
+				<div class="container">
+                    <div class="section-top-border text-center">
+                        <h3 class="mb-30">Tabla de Archivos Requeridos de <?=$directorio?></h3>
+                        <div class="row justify-content-center">
+                            <div class="col-md-10">
+                                <p class="sample-text">Se comprobará si <?=$directorio?> contiene los siguientes archivos:</p>
+<?php
+        if(count($archivosRequeridos)==0){
+?>
+                                <p class="sample-text">El directorio <?=$directorio?> no tiene ningún archivo requerido</p>
+<?php
+        }
+        else{
+?>
+                            </div>
+                        </div>
+                        <div class="progress-table-wrap">
+							<div class="progress-table">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <td width="40%"><b>Archivos requeridos</b></td>
+                                            <td width="60%" align=center><b>Borrar</b></td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+<?php
+            for($i=0;$i<count($archivosRequeridos);$i++){
+?>
+                                        <tr>
+                                            <td width="40%"><?=$archivosRequeridos[$i]?></td>
+                                            <td width="60%" align=center>
+                                                <a href="../controller/confController.php?action=deleteArchivo&directorio=<?=$directorio?>&archivo=<?=$archivosRequeridos[$i]?>"><img src="../img/delete.png" alt="" width="4%"></a>
+                                            </td>
+                                        </tr>
+<?php
+            }
+?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+<?php
+        }
+?>
+                    </div>
+                </div>
+            </div>
+
+			<!-- Start text Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
+						<a href="../controller/confController.php?action=loadCreateArchivo">Añadir nuevo archivo requerido <img src="../img/add.png" alt="" width="3%"></a>
 					</div>
 				</div>
 			</div>
@@ -126,6 +186,7 @@ class editView{
 							<a href="#"><i class="fa fa-behance"></i></a>
 						</div>
 						<div class="copy-right-text">Copyright &copy; 2018 All rights reserved</div>
+
 					</div>
 				</div>
 			</footer>
