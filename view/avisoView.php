@@ -1,18 +1,18 @@
 <?php
 /**
- * Este archivo contiene una vista que enseña la Configuración
+ * Este archivo contiene una vista que enseña un mensaje
  *
  * @author iago
  *
  * Fecha: 12/11/2017
 */
 
-class verConfView{
-    function __construct($directoriosConf){
-        $this->render($directoriosConf);
+class avisoView{
+    function __construct($mensaje,$volver) {
+        $this->render($mensaje,$volver);
     }
     
-    function render($directoriosConf){
+    function render($mensaje,$volver){
 ?> 
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -61,7 +61,7 @@ class verConfView{
 					<div class="row justify-content-center generic-height align-items-center">
 						<div class="col-lg-8">
 							<div class="banner-content text-center">
-								<h1 class="text-white">Configuración del Análisis</h1>
+								<h1 class="text-white">Aviso</h1>
 							</div>
 						</div>
 					</div>
@@ -71,65 +71,17 @@ class verConfView{
 
 		<!-- Start Amazing Works Area -->
 		<div class="main-wrapper">
-
-            <div class="white-bg">
-				<div class="container">
-                    <div class="section-top-border">
-                        <h3 class="mb-30">Tabla de Directorios</h3>
-                        <div class="progress-table-wrap">
-							<div class="progress-table">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <td width="40%"><b>Directorios</b></td>
-                                            <td width="30%" align=center><b>Ver Patrones</b></td>
-                                            <td width="30%" align=center><b>Borrar</b></td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-<?php
-        for($i=0;$i<count($directoriosConf);$i++){
-?>
-                                        <tr>
-                                            <td width="40%">
-                                                <?=$directoriosConf[$i]?>
-                                            </td>
-                                            <td width="30%" align=center>
-                                                <a href="../controller/confController.php?action=verPatrones&directorio=<?=$directoriosConf[$i]?>"><img src="../img/view.png" alt="" width="7%"></a>
-                                            </td>
-                                            <td width="30%" align=center>
-<?php
-            if($directoriosConf[$i]=='Model' || $directoriosConf[$i]=='Controller' || $directoriosConf[$i]=='View'){
-?>
-                                                No se puede borrar
-<?php
-            }
-            else{
-?>
-                                                <a href="../controller/confController.php?action=deleteDir&directorio=<?=$directoriosConf[$i]?>"><img src="../img/delete.png" alt="" width="7%"></a>
-<?php
-            }
-?>
-                                            </td>
-                                        </tr>
-<?php
-        }
-?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+			
 			<!-- Start text Area -->
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-						<a href="../controller/confController.php?action=loadCreateDir">Añadir nuevo directorio <img src="../img/add.png" alt="" width="3%"></a>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="../controller/confController.php?action=default">Configuración predeterminada <img src="../img/default.png" alt="" width="3%"></a>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text"><?=$mensaje?></p>
+							</div>
+							
+						</div>
 					</div>
 				</div>
 			</div>
@@ -139,7 +91,7 @@ class verConfView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-						<a href="../index.php"><img src="../img/back.png" alt="" width="8%"></a>
+						<a href="<?=$volver?>"><img src="../img/back.png" alt="" width="8%"></a>
 					</div>
 				</div>
 			</div>
@@ -183,3 +135,4 @@ class verConfView{
     }
 }
 ?>
+ 

@@ -76,7 +76,9 @@ class editView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
+                        <h3 class="mb-30">Nuevo Patrón</h3>
                         <p class="sample-text">Procure utilizar unicamente caracteres permitidos para nombres de ficheros (utilice % para señalar una cadena cualquiera de caracteres). Si solo desea borrar el actual patrón pulse borrar o envíe un patrón vacio.</p>
+                        <p class="sample-text"><b>Aviso:</b> si los archivos requeridos para este directorio no coinciden con el nuevo patrón, estos serán borrados (ej: si el nuevo patron es %_model.php el archivo requerido model_main.php será borrado)</p>
 <?php
         if($patron!=''){
 ?>
@@ -84,7 +86,7 @@ class editView{
 <?php
         }
 ?>
-						<form action="../controller/confController.php?action=edit" method="post">
+						<form action="../controller/confController.php?action=editPatron" method="post">
                             <input type="hidden" name="directorio" value="<?=$directorio?>"/>
 							<div class="mt-8">
 								<input type="text" name="patron" placeholder="Nuevo Patrón" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nuevo Patrón'" class="single-input"/>
@@ -104,7 +106,10 @@ class editView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-						<a href="../controller/confController.php?action=verConf"><img src="../img/back.png" alt="" width="8%"></a>
+<?php
+        $auxDir=explode('/',$directorio,2);
+?>
+						<a href="../controller/confController.php?action=verPatrones&directorio=<?=$auxDir[1]?>"><img src="../img/back.png" alt="" width="8%"></a>
 					</div>
 				</div>
 			</div>

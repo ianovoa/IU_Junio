@@ -76,8 +76,9 @@ class createView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
+                        <h3 class="mb-30">Nuevo Directorio</h3>
                         <p class="sample-text">Procure utilizar unicamente caracteres permitidos para nombres de directorios.</p>
-						<form action="../controller/confController.php?action=create" method="post">
+						<form action="../controller/confController.php?action=createDir" method="post">
 							<div class="mt-8">
 								<input type="text" name="directorio" placeholder="Nuevo Directorio" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nuevo Directorio'" required class="single-input"/>
 							</div>

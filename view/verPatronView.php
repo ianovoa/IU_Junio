@@ -83,12 +83,12 @@ class verPatronView{
 <?php
         if($patron==''){
 ?>
-                                <p class="sample-text">El directorio <?=$directorio?> no tiene un patron asignado (<a href="../controller/confController.php?action=loadEdit&directorio=<?=$directorio?>"><u>añadir patrón</u></a>)</p>
+                                <p class="sample-text">El directorio <?=$directorio?> no tiene un patrón asignado (<a href="../controller/confController.php?action=loadEditPatron&directorio=<?=$directorio?>"><u>añadir patrón</u></a>)</p>
 <?php
         }
         else{
 ?>
-                                <p class="sample-text"><b><?=$patron?></b> (<a href="../controller/confController.php?action=loadEdit&directorio=<?=$directorio?>"><u>editar patrón</u></a>)</p>
+                                <p class="sample-text"><b><?=$patron?></b> (<a href="../controller/confController.php?action=loadEditPatron&directorio=<?=$directorio?>"><u>editar patrón</u></a>)</p>
 <?php
         }
 ?>
