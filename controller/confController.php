@@ -9,6 +9,7 @@
 include_once '../view/verConfView.php';
 include_once '../view/editView.php';
 include_once '../view/createView.php';
+include_once '../view/createArchivoView.php';
 include_once '../view/verPatronView.php';
 include_once '../view/avisoView.php';
 
@@ -29,8 +30,7 @@ switch ($_REQUEST['action']){
         $filesConf=file('../conf/Files.conf',FILE_IGNORE_NEW_LINES);
         for($i=0;$i<count($filesConf);$i++){
             $expRegular='~CodigoAExaminar/'.$directorio.'/(.+\..+)~';
-            preg_match($expRegular,$filesConf[$i],$name); //array: 1 name
-            if(count($name)>0){
+            if(preg_match($expRegular,$filesConf[$i],$name)==1){ //array: 1 name
                 if(strpbrk($name[1],'%')==false) $archivosRequeridos[]=$name[1];
                 else $patron=$name[1];
             }
@@ -148,6 +148,40 @@ switch ($_REQUEST['action']){
             $directorio='CodigoAExaminar/'.$directorio.PHP_EOL;
             file_put_contents('../conf/Directories.conf',$directorio,FILE_APPEND | LOCK_EX);
             header('Location: confController.php?action=verConf');
+            break;
+            
+        case 'loadCreateArchivo': //se añade un archivo requerido
+            $directorio=$_GET['directorio'];
+            $patron='';
+            $directorioAux='CodigoAExaminar/'.$directorio;
+            $patrones=file('../conf/Files.conf',FILE_IGNORE_NEW_LINES);
+            for($i=0;$i<count($patrones);$i++){
+                    preg_match('~(.+)/(.+\..+)~',$patrones[$i],$dirYName); //array: 1 dir, 2 name
+                    if($dirYName[1]==$directorioAux && strpbrk($dirYName[2],'%')!=false) $patron=$dirYName[2];
+            }
+            new createArchivoView($directorio,$patron);
+            break;
+            
+        case 'createArchivo': //se añade un archivo requerido
+            $directorio=$_POST['directorio'];
+            $archivo=$_POST['archivo'];
+            $patron='';
+            if(strpbrk($archivo,'%')==false){
+                $patrones=file('../conf/Files.conf',FILE_IGNORE_NEW_LINES);
+                for($i=0;$i<count($patrones);$i++){
+                    preg_match('~(.+)/(.+\..+)~',$patrones[$i],$dirYName); //array: 1 dir, 2 name
+                    if($dirYName[1]=='CodigoAExaminar/'.$directorio && strpbrk($dirYName[2],'%')!=false) $patron=$dirYName[2];
+                }
+                $expRegular=str_replace('%','[0-9A-Za-z]+',$patron);
+                $expRegular=str_replace('.','\.',$expRegular);
+                $expRegular='~'.$expRegular.'~'; //crea la expresion regular necesaria para la busqueda
+                if($patron=='' || preg_match($expRegular,$archivo)==1){
+                    file_put_contents('../conf/Files.conf','CodigoAExaminar/'.$directorio.'/'.$archivo.PHP_EOL,FILE_APPEND | LOCK_EX);
+                    header("Location: confController.php?action=verPatrones&directorio=$directorio");
+                }
+                else new avisoView("No se puede añadir $archivo como un archivo requerido para la carpeta $directorio pues no cumple con el patrón impuesto en dicha carpeta.","../controller/confController.php?action=verPatrones&directorio=$directorio");
+            }
+            else new avisoView('El caracter <u>%</u> está reservado para su uso en los patrones de las carpetas por lo que no se puede usar para nombrar un archivo requerido.',"../controller/confController.php?action=verPatrones&directorio=$directorio");
             break;
             
         case 'default': //se reinicia la configuración

@@ -154,7 +154,7 @@ class verPatronView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-						<a href="../controller/confController.php?action=loadCreateArchivo">Añadir nuevo archivo requerido <img src="../img/add.png" alt="" width="3%"></a>
+						<a href="../controller/confController.php?action=loadCreateArchivo&directorio=<?=$directorio?>">Añadir nuevo archivo requerido <img src="../img/add.png" alt="" width="3%"></a>
 					</div>
 				</div>
 			</div>
