@@ -1,10 +1,10 @@
 <?php
 /**
- * Este archivo contiene una vista que enseña el resultado del analisis
+ * Este archivo contiene una vista que permite crear una nueva entrada en directories.conf
  *
- * @author iago
+ * @author Iago Nóvoa González
  *
- * Fecha: 12/11/2017
+ * Fecha: 12/06/2018
 */
 
 class createView{

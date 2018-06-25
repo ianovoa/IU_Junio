@@ -2,9 +2,9 @@
 /**
  * Este archivo contiene una vista que enseña un mensaje
  *
- * @author iago
+ * @author Iago Nóvoa González
  *
- * Fecha: 12/11/2017
+ * Fecha: 13/06/2018
 */
 
 class avisoView{

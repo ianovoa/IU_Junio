@@ -2,7 +2,9 @@
 /**
  * En este archivo se detallará el controlador de la configuración del análisis del código
  *
- * @author iago
+ * Fecha: 10/06/2018
+ * 
+ * @author Iago Nóvoa González
  */
 
 //incluidas la vistas
@@ -23,7 +25,7 @@ switch ($_REQUEST['action']){
         new verConfView($directoriosConf);
         break;
         
-    case 'verPatrones': //se muestra el patron para el nombre del archivo
+    case 'verPatrones': //se muestra el patron para el nombre del archivo (y los archivos requeridos)
         $patron='';
         $archivosRequeridos=array();
         $directorio=$_GET['directorio'];
@@ -38,7 +40,7 @@ switch ($_REQUEST['action']){
         new verPatronView($directorio,$patron,$archivosRequeridos);
         break;
 
-        case 'loadEditPatron': //se edita el patron para el nombre del archivo o (se borra)
+        case 'loadEditPatron': //se carga la vista para editar el patron
             $patron='';
             $directorio=$_GET['directorio'];
             $directorio='CodigoAExaminar/'.$directorio;
@@ -65,7 +67,7 @@ switch ($_REQUEST['action']){
                     else $exPatron=$patrones[$i];
                 }
             }
-            if($orden=='Enviar' && $patron!=''){ //$newsPatrones[]=$directorio.'/'.$patron.PHP_EOL;
+            if($orden=='Enviar' && $patron!=''){
                 if(strpbrk($patron,'%')==false){
                     if(isset($exPatron)) $newsPatrones[]=$exPatron.PHP_EOL;
                     for($i=0;$i<count($filesDir);$i++) $newsPatrones[]=$filesDir[$i].PHP_EOL;
@@ -139,7 +141,7 @@ switch ($_REQUEST['action']){
             header("Location: confController.php?action=verPatrones&directorio=$directorio");
             break;
         
-        case 'loadCreateDir': //se añade un directorio
+        case 'loadCreateDir': //se carga la vista para añadir un directorio
             new createView();
             break;
             
@@ -150,7 +152,7 @@ switch ($_REQUEST['action']){
             header('Location: confController.php?action=verConf');
             break;
             
-        case 'loadCreateArchivo': //se añade un archivo requerido
+        case 'loadCreateArchivo': //se carga la vista para añadir un archivo requerido
             $directorio=$_GET['directorio'];
             $patron='';
             $directorioAux='CodigoAExaminar/'.$directorio;

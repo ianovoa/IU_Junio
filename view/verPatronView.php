@@ -1,10 +1,10 @@
 <?php
 /**
- * Este archivo contiene una vista que enseña la Configuración
+ * Este archivo contiene una vista que enseña la Configuración de un directorio
  *
- * @author iago
+ * @author Iago Nóvoa González
  *
- * Fecha: 12/11/2017
+ * Fecha: 12/06/2018
 */
 
 class verPatronView{
@@ -146,19 +146,13 @@ class verPatronView{
 <?php
         }
 ?>
+                        <br><br>
+                        <div class="text-center">
+                            <a href="../controller/confController.php?action=loadCreateArchivo&directorio=<?=$directorio?>">Añadir nuevo archivo requerido <img src="../img/add.png" alt="" width="3%"></a>
+                        </div>
                     </div>
                 </div>
             </div>
-
-			<!-- Start text Area -->
-			<div class="white-bg">
-				<div class="container">
-					<div class="section-top-border text-center">
-						<a href="../controller/confController.php?action=loadCreateArchivo&directorio=<?=$directorio?>">Añadir nuevo archivo requerido <img src="../img/add.png" alt="" width="3%"></a>
-					</div>
-				</div>
-			</div>
-			<!-- End text Area -->
 
 			<!-- Start text Area -->
 			<div class="white-bg">

@@ -2,9 +2,9 @@
 /**
  * Este archivo contiene una vista que enseña la Configuración
  *
- * @author iago
+ * @author Iago Nóvoa González
  *
- * Fecha: 12/11/2017
+ * Fecha: 12/06/2018
 */
 
 class verConfView{
@@ -119,21 +119,15 @@ class verConfView{
                                 </table>
                             </div>
                         </div>
+                        <br><br>
+                        <div class="text-center">
+                            <a href="../controller/confController.php?action=loadCreateDir">Añadir nuevo directorio <img src="../img/add.png" alt="" width="3%"></a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="../controller/confController.php?action=default">Configuración predeterminada <img src="../img/default.png" alt="" width="3%"></a>
+                        </div>
                     </div>
                 </div>
             </div>
-
-			<!-- Start text Area -->
-			<div class="white-bg">
-				<div class="container">
-					<div class="section-top-border text-center">
-						<a href="../controller/confController.php?action=loadCreateDir">Añadir nuevo directorio <img src="../img/add.png" alt="" width="3%"></a>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-						<a href="../controller/confController.php?action=default">Configuración predeterminada <img src="../img/default.png" alt="" width="3%"></a>
-					</div>
-				</div>
-			</div>
-			<!-- End text Area -->
 
 			<!-- Start text Area -->
 			<div class="white-bg">

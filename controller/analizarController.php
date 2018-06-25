@@ -1,8 +1,10 @@
 <?php
 /**
  * En este archivo se detallará el controlador del análisis del código
+ *
+ * Fecha: 10/06/2018
  * 
- * @author iago
+ * @author Iago Nóvoa González
  */
 
 //incluida la vista

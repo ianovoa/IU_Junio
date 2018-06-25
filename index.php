@@ -1,3 +1,9 @@
+<!--
+Esta es la pagina principal de la aplicacion
+Autor: Iago Nóvoa González
+Fecha: 11/06/2018
+-->
+
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 <head>
