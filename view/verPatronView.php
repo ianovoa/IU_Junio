@@ -122,8 +122,8 @@ class verPatronView{
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <td width="40%"><b>Archivos requeridos</b></td>
-                                            <td width="60%" align=center><b>Borrar</b></td>
+                                            <td width="50%" align=center><b>Archivos requeridos</b></td>
+                                            <td width="50%" align=center><b>Borrar</b></td>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -131,8 +131,8 @@ class verPatronView{
             for($i=0;$i<count($archivosRequeridos);$i++){
 ?>
                                         <tr>
-                                            <td width="40%"><?=$archivosRequeridos[$i]?></td>
-                                            <td width="60%" align=center>
+                                            <td width="50%" align=center><?=$archivosRequeridos[$i]?></td>
+                                            <td width="50%" align=center>
                                                 <a href="../controller/confController.php?action=deleteArchivo&directorio=<?=$directorio?>&archivo=<?=$archivosRequeridos[$i]?>"><img src="../img/delete.png" alt="" width="4%"></a>
                                             </td>
                                         </tr>

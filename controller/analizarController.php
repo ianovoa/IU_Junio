@@ -23,7 +23,9 @@ switch ($_REQUEST['action']){
             $comentariosCon=comprobarComentariosControl(''); //comprueba los comentarios de los archivos de código (e. de control)
             $comentariosVar=comprobarComentariosVar(''); //comprueba los comentarios de los archivos de código (variables)
             $soloIndex=comprobarSoloIndex(); //comprueba q en la caepeta raiz solo se halle el index (boolean)
-            new analisisView($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex); //muestra los resultados del analisis
+            $numDir=conteoDir(''); //cuenta el numero de directorios de manera recursiva
+            $numArch=conteoArch(''); //cuenta el numero de archivos de manera recursiva
+            new analisisView($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch); //muestra los resultados del analisis
 		}
 		break;
 }
@@ -65,7 +67,7 @@ function comprobarFileName(){
                 for($j=0;$j<count($files);$j++){
                     if(!is_dir($files[$j]) && preg_match($expRegular,$files[$j])==0){
                         $str=explode('/',$dirYName[1],2); //spq
-                        $toret[]=$str[1].'/'.$files[$j];
+                        $toret[]=$str[1].'/'.$files[$j].' (el patrón es '.$dirYName[2].')';
                     }
                 }
             }
@@ -298,6 +300,36 @@ function comprobarSoloIndex(){
             $toret=false;
             break;
         }
+    }
+    return $toret;
+}
+
+//cuenta el numero de directorios de manera recursiva
+function conteoDir($dirOr){
+    $dir='../CodigoAExaminar/'.$dirOr;
+    if(!isset($toret)) $toret=0;
+    $files=scandir($dir);
+    for($i=0;$i<count($files);$i++){
+        if(is_dir($dir.'/'.$files[$i]) && !strpbrk($files[$i],'.')){
+            $toret++;
+            $recur=conteoDir($dirOr.'/'.$files[$i]);
+            $toret+=$recur;
+        }
+    }
+    return $toret;
+}
+
+//cuenta el numero de archivos de manera recursiva
+function conteoArch($dirOr){
+    $dir='../CodigoAExaminar/'.$dirOr;
+    if(!isset($toret)) $toret=0;
+    $files=scandir($dir);
+    for($i=0;$i<count($files);$i++){
+        if(is_dir($dir.'/'.$files[$i]) && !strpbrk($files[$i],'.')){
+            $recur=conteoArch($dirOr.'/'.$files[$i]);
+            $toret+=$recur;
+        }
+        elseif(!is_dir($dir.'/'.$files[$i])) $toret++;
     }
     return $toret;
 }

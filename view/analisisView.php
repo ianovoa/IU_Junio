@@ -8,11 +8,11 @@
 */
 
 class analisisView{
-    function __construct($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex) {
-        $this->render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex);
+    function __construct($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch) {
+        $this->render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch);
     }
     
-    function render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex){
+    function render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch){
 ?> 
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -71,7 +71,46 @@ class analisisView{
 
 		<!-- Start Amazing Works Area -->
 		<div class="main-wrapper">
-			
+
+			<!-- Start text Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
+						<h1>RESUMEN ANÁLISIS</h1>
+						<br>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text">1 - Existen los directorios especificados en el fichero Directories.conf y no hay ningún fichero mas en el directorio principal que el index.php.<br>
+<?php
+        $aux=count($directorios);
+        if(!$soloIndex) $aux++;
+?>
+                                <u>Número de errores : <?=$aux?></u></p>
+                                <p class="sample-text">2 - Los ficheros tienen el nombre indicado en la especificación en el fichero Files.conf.<br><u>Número de errores : <?=count($fileName)?></u></p>
+                                <p class="sample-text">3 - Todos los ficheros dentro de los directorios Model y View son definiciones de clases y todos los ficheros dentro del directorio Controller son scripts php.<br><u>Número de errores :  <?=count($tipoFile)?></u></p>
+                                <p class="sample-text">4 - Los ficheros tienen todos al principio del fichero comentada su función, autor y fecha.<br><u>Número de errores : <?=count($cabeceras)?></u></p>
+                                <p class="sample-text">5 - Las funciones y métodos en el código tienen comentarios con una descripción antes de su comienzo.<br><u>Número de errores : <?=count($comentariosFun,COUNT_RECURSIVE)-(count($comentariosFun)*2)?> (en <?=count($comentariosFun)?> archivos)</u></p>
+                                <p class="sample-text">6 - En el código están comentadas todas las estructuras de control en la línea anterior a su uso o en la misma línea.<br><u>Número de errores : <?=count($comentariosCon,COUNT_RECURSIVE)-(count($comentariosCon)*2)?> (en <?=count($comentariosCon)?> archivos)</u></p>
+                                <p class="sample-text">7 - En el código están todas las variables definidas antes de su uso y tienen un comentario en la línea anterior o en la misma línea.<br><u>Número de errores : <?=count($comentariosVar,COUNT_RECURSIVE)-(count($comentariosVar)*2)?> (en <?=count($comentariosVar)?> archivos)</u></p>
+                                <br>
+                                <p class="sample-text"><b>Número de elementos analizados</b><br>Directorios: <?=$numDir?><br>Archivos: <?=$numArch?></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End text Area -->
+
+            <!-- Start title Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
+						<h1>DETALLE</h1>
+					</div>
+				</div>
+			</div>
+			<!-- End title Area -->
+
 			<!-- Start text Area -->
 			<div class="white-bg">
 				<div class="container">
