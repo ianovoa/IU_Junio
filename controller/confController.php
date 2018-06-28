@@ -40,7 +40,7 @@ switch ($_REQUEST['action']){
         new verPatronView($directorio,$patron,$archivosRequeridos);
         break;
 
-        case 'loadEditPatron': //se carga la vista para editar el patron
+        case 'loadEditPatron': //se carga la vista para editar el patron (linea con % en files.conf)
             $patron='';
             $directorio=$_GET['directorio'];
             $directorio='CodigoAExaminar/'.$directorio;
@@ -152,7 +152,7 @@ switch ($_REQUEST['action']){
             header('Location: confController.php?action=verConf');
             break;
             
-        case 'loadCreateArchivo': //se carga la vista para añadir un archivo requerido
+        case 'loadCreateArchivo': //se carga la vista para añadir un archivo requerido (linea sin % en files.conf)
             $directorio=$_GET['directorio'];
             $patron='';
             $directorioAux='CodigoAExaminar/'.$directorio;

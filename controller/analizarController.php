@@ -7,13 +7,14 @@
  * @author Iago Nóvoa González
  */
 
-//incluida la vista
+//incluidas las vistas
 include_once '../view/analisisView.php';
+include_once '../view/avisoView.php';
 
 switch ($_REQUEST['action']){
 	case 'analizar': //se realiza el análisis del codigo
 		$codeName=$_FILES['code']['name'];
-		if(!move_uploaded_file($_FILES['code']['tmp_name'],'../CodigoAExaminar/'.$_FILES['code']['name'])) echo $codeName." no está se ha ido a por tabaco";
+		if(!move_uploaded_file($_FILES['code']['tmp_name'],'../CodigoAExaminar/'.$_FILES['code']['name'])) new avisoView('Error al subir el archivo',"../index.php");
 		else{
             $directorios=comprobarDirectorio(); //comprueba que los directorios sean los de Directories.conf
             $fileName=comprobarFileName(); //comprueba que los archivos tengan nombres permitidos en File.conf
@@ -285,7 +286,7 @@ function comprobarComentariosVar($dirOr){
     return $toret;
 }
 
-//comprueba q en la caepeta raiz solo se halle el index
+//comprueba q en la carpeta raiz solo se halle el index
 function comprobarSoloIndex(){
     $toret=true;
     $files=scandir('../CodigoAExaminar');
