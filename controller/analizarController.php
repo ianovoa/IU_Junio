@@ -58,6 +58,7 @@ function comprobarFileName(){
                 }
                 if($faltaFichero){
                     $str=explode('/',$dirYName[1],2); //spq
+                    if(!isset($str[1])) $str[1]='';
                     $toret[]='Fichero requerido inexistente: '.$str[1].'/'.$dirYName[2];
                 }
             }
