@@ -38,10 +38,16 @@ function comprobarDirectorio(){
     for($i=0;$i<count($directoriosConf);$i++){
         if(!@scandir('../'.$directoriosConf[$i])){ //si no existe una dir se guarda en el array de errores
             $str=explode('/',$directoriosConf[$i],2); //spq
-            $toret[]=$str[1];
+            $toret[$i][]=$str[1];
+            $toret[$i][]=false; //error
+        }
+        else{
+            $str=explode('/',$directoriosConf[$i],2); //spq
+            $toret[$i][]=$str[1];
+            $toret[$i][]=true; //todo correcto
         }
     }
-    return $toret; //devuelve todas las carpetas q NO existen (y deberian)
+    return $toret; //devuelve resultado de analisis
 }
 
 //comprueba que los archivos tengan nombres permitidos en File.conf
@@ -55,11 +61,17 @@ function comprobarFileName(){
                 $faltaFichero=true;
                 for($j=0;$j<count($files);$j++){
                     if($files[$j]==$dirYName[2]) $faltaFichero=false;
+                    if(!$faltaFichero) break;
                 }
+                $str=explode('/',$dirYName[1],2); //spq
+                if(!isset($str[1])) $str[1]='';
                 if($faltaFichero){
-                    $str=explode('/',$dirYName[1],2); //spq
-                    if(!isset($str[1])) $str[1]='';
-                    $toret[]='Fichero requerido inexistente: '.$str[1].'/'.$dirYName[2];
+                    $toret[$str[1].'/'.$dirYName[2]][0][0]='Fichero requerido inexistente';
+                    $toret[$str[1].'/'.$dirYName[2]][0][1]=false; //error
+                }
+                else{
+                    $toret[$str[1].'/'.$dirYName[2]][0][0]='Existe el fichero requerido';
+                    $toret[$str[1].'/'.$dirYName[2]][0][1]=true; //todo correcto
                 }
             }
             else{
@@ -67,9 +79,17 @@ function comprobarFileName(){
                 $expRegular=str_replace('.','\.',$expRegular);
                 $expRegular='/'.$expRegular.'/'; //crea la expresion regular necesaria para la busqueda
                 for($j=0;$j<count($files);$j++){
-                    if(!is_dir($files[$j]) && preg_match($expRegular,$files[$j])==0){
+                    if(!is_dir($files[$j])){
                         $str=explode('/',$dirYName[1],2); //spq
-                        $toret[]=$str[1].'/'.$files[$j].' (el patrón es '.$dirYName[2].')';
+                        $x=count($toret[$str[1].'/'.$dirYName[2]]);
+                        if(preg_match($expRegular,$files[$j])==0){
+                            $toret[$str[1].'/'.$dirYName[2]][$x][0]=$str[1].'/'.$files[$j];
+                            $toret[$str[1].'/'.$dirYName[2]][$x][1]=true;
+                        }
+                        elseif(preg_match($expRegular,$files[$j])==1){
+                            $toret[$str[1].'/'.$dirYName[2]][$x][0]=$str[1].'/'.$files[$j];
+                            $toret[$str[1].'/'.$dirYName[2]][$x][1]=false;
+                        }
                     }
                 }
             }
@@ -179,15 +199,17 @@ function comprobarCabeceras($dirOr){
                     elseif($tipoCom!='' && preg_match('/[0-9A-Za-z\s]+/',$code[$j])==1) $tieneFuncion=true; //entendemos cualquier frase en la cabecera como funcion
                     if(($tipoCom=='/*' && strpos($code[$j],'*/')!==false) || ($tipoCom=='<!--' && strpos($code[$j],'-->')!==false)) break; //cuando se acaba la cabecera dejamos de leer
                 }
-                
+                $k=count($toret);
                 if(!$tieneAutor || !$tieneFecha || !$tieneFuncion){
-                    if(isset($toret)) $k=count($toret);
-                    else $k=0;
                     $toret[$k][0]=$dirOr.'/'.$files[$i];
+                    $toret[$k][1]=false; //error
                     if(!$tieneAutor) $toret[$k][]='autor';
                     if(!$tieneFuncion) $toret[$k][]='funcion';
                     if(!$tieneFecha) $toret[$k][]='fecha';
-
+                }
+                else{
+                    $toret[$k][0]=$dirOr.'/'.$files[$i];
+                    $toret[$k][1]=true; //todo correcto
                 }
             }
         }
@@ -210,12 +232,19 @@ function comprobarComentariosFuncion($dirOr){
         if(!is_dir($dir.'/'.$files[$i])){
             if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
                 $k=count($toret);
+                $todoBien=true;
                 $code=file($dir.'/'.$files[$i],FILE_IGNORE_NEW_LINES);
                 for($j=0;$j<count($code);$j++){ //leemos el codigo
                     if(preg_match('/^[A-Za-z][\w\s]+\((\$?[A-Za-z][\w\s]*,?)*\)\{/',$code[$j],$coincidencia)==1 && strpos($code[$j],'if')===false && strpos($code[$j],'for')===false && strpos($code[$j],'while')===false  &&strpos($code[$j],'class')===false  && strpos($code[$j],'foreach')===false && strpos($code[$j],'switch')===false && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
                         $toret[$k][0]=$dirOr.'/'.$files[$i];
+                        $toret[$k][1]=false; //error
                         $toret[$k][]=$coincidencia[0].' (linea '.($j+1).')';
+                        $todoBien=false;
                     }
+                }
+                if($todoBien){
+                    $toret[$k][0]=$dirOr.'/'.$files[$i];
+                    $toret[$k][1]=true; //todo bien
                 }
             }
         }
@@ -262,6 +291,7 @@ function comprobarComentariosVar($dirOr){
         if(!is_dir($dir.'/'.$files[$i])){
             if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
                 $k=count($toret);
+                $todoBien=true;
                 $variables=array();
                 $code=file($dir.'/'.$files[$i],FILE_IGNORE_NEW_LINES);
                 for($j=0;$j<count($code);$j++){ //leemos el codigo
@@ -272,10 +302,16 @@ function comprobarComentariosVar($dirOr){
                         }
                         if($sinRegistrar){
                             $toret[$k][0]=$dirOr.'/'.$files[$i];
+                            $toret[$k][1]=false; //error
                             $toret[$k][]=$coincidencia[1].' (linea '.($j+1).')';
                             $variables[]=$coincidencia[1];
+                            $todoBien=false;
                         }
                     }
+                }
+                if($todoBien){
+                    $toret[$k][0]=$dirOr.'/'.$files[$i];
+                    $toret[$k][1]=true; //todo bien
                 }
             }
         }
