@@ -114,31 +114,10 @@ function comprobarTipoFile(){
                     }
                     elseif(strpos($code[$j],'function ')!==false || strpos($code[$j],'switch ')!==false) break; //si se encuentra una de estas 2 antes es q no es una clase
                 }
-                if(!$tipoCorrecto){
-                    $toret[$k][0]=$files[$i];
-                    $toret[$k][1]='no es una definicion de clase';
-                    $k++;
-                }
-            }
-        }
-    }
-    if($files=@scandir('../CodigoAExaminar/View')){
-        for($i=0;$i<count($files);$i++){
-            if(strpos($files[$i],'.php')!==false){
-                $tipoCorrecto=false;
-                $code=file('../CodigoAExaminar/View/'.$files[$i],FILE_IGNORE_NEW_LINES);
-                for($j=0;$j<count($code);$j++){
-                    if(strpos($code[$j],'class ')!==false){
-                        $tipoCorrecto=true;
-                        break;
-                    }
-                    elseif(strpos($code[$j],'function ')!==false || strpos($code[$j],'switch ')!==false) break; //si se encuentra una de estas 2 antes es q no es una clase
-                }
-                if(!$tipoCorrecto){
-                    $toret[$k][0]=$files[$i];
-                    $toret[$k][1]='no es una definicion de clase';
-                    $k++;
-                }
+                $toret['model'][$k][0]=$files[$i];
+                if(!$tipoCorrecto) $toret[$k][1]=false; //error
+                else $toret[$k][1]=true; //todo correcto
+                $k++;
             }
         }
     }
@@ -154,11 +133,29 @@ function comprobarTipoFile(){
                     }
                     elseif(strpos($code[$j],'function ')!==false || strpos($code[$j],'class ')!==false) break; //si se encuentra una de estas 2 antes es q no es un scripts
                 }
-                if(!$tipoCorrecto){
-                    $toret[$k][0]=$files[$i];
-                    $toret[$k][1]='no es un script php';
-                    $k++;
+                $toret['controller'][$k][0]=$files[$i];
+                if(!$tipoCorrecto) $toret[$k][1]=false; //error
+                else $toret[$k][1]=true; //todo correcto
+                $k++;
+            }
+        }
+    }
+    if($files=@scandir('../CodigoAExaminar/View')){
+        for($i=0;$i<count($files);$i++){
+            if(strpos($files[$i],'.php')!==false){
+                $tipoCorrecto=false;
+                $code=file('../CodigoAExaminar/View/'.$files[$i],FILE_IGNORE_NEW_LINES);
+                for($j=0;$j<count($code);$j++){
+                    if(strpos($code[$j],'class ')!==false){
+                        $tipoCorrecto=true;
+                        break;
+                    }
+                    elseif(strpos($code[$j],'function ')!==false || strpos($code[$j],'switch ')!==false) break; //si se encuentra una de estas 2 antes es q no es una clase
                 }
+                $toret['view'][$k][0]=$files[$i];
+                if(!$tipoCorrecto) $toret[$k][1]=false; //error
+                else $toret[$k][1]=true; //todo correcto
+                $k++;
             }
         }
     }
@@ -265,12 +262,19 @@ function comprobarComentariosControl($dirOr){
         if(!is_dir($dir.'/'.$files[$i])){
             if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
                 $k=count($toret);
+                $todoBien=true;
                 $code=file($dir.'/'.$files[$i],FILE_IGNORE_NEW_LINES);
                 for($j=0;$j<count($code);$j++){ //leemos el codigo
                     if((preg_match('/(else)?if\s?\(.+\)\{/',$code[$j],$coincidencia)==1 || preg_match('/for(each)?\s?\(.+\)\{/',$code[$j],$coincidencia)==1 || preg_match('/do\s?\{/',$code[$j],$coincidencia)==1 || preg_match('/while\s?\(.+\)\{/',$code[$j],$coincidencia)==1 || preg_match('/switch\s?\(.+\)\{/',$code[$j],$coincidencia)==1) && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
                         $toret[$k][0]=$dirOr.'/'.$files[$i];
+                        $toret[$k][1]=false; //error
                         $toret[$k][]=$coincidencia[0].' (linea '.($j+1).')';
+                        $todoBien=false;
                     }
+                }
+                if($todoBien){
+                    $toret[$k][0]=$dirOr.'/'.$files[$i];
+                    $toret[$k][1]=true; //todo bien
                 }
             }
         }
