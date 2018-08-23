@@ -13,7 +13,7 @@ class analisisView{
     }
     
     function render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch){
-?> 
+?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 <head>
@@ -82,16 +82,75 @@ class analisisView{
 							<div class="col-md-10">
 								<p class="sample-text">1 - Existen los directorios especificados en el fichero Directories.conf y no hay ningún fichero mas en el directorio principal que el index.php.<br>
 <?php
-        $aux=count($directorios);
+        $aux=0;
+        for($i=0;$i<count($directorios);$i++) if(!$directorios[$i][1]) $aux++;
         if(!$soloIndex) $aux++;
 ?>
-                                <u>Número de errores : <?=$aux?></u></p>
-                                <p class="sample-text">2 - Los ficheros tienen el nombre indicado en la especificación en el fichero Files.conf.<br><u>Número de errores : <?=count($fileName)?></u></p>
-                                <p class="sample-text">3 - Todos los ficheros dentro de los directorios Model y View son definiciones de clases y todos los ficheros dentro del directorio Controller son scripts php.<br><u>Número de errores :  <?=count($tipoFile)?></u></p>
-                                <p class="sample-text">4 - Los ficheros tienen todos al principio del fichero comentada su función, autor y fecha.<br><u>Número de errores : <?=count($cabeceras)?></u></p>
-                                <p class="sample-text">5 - Las funciones y métodos en el código tienen comentarios con una descripción antes de su comienzo.<br><u>Número de errores : <?=count($comentariosFun,COUNT_RECURSIVE)-(count($comentariosFun)*2)?> (en <?=count($comentariosFun)?> archivos)</u></p>
-                                <p class="sample-text">6 - En el código están comentadas todas las estructuras de control en la línea anterior a su uso o en la misma línea.<br><u>Número de errores : <?=count($comentariosCon,COUNT_RECURSIVE)-(count($comentariosCon)*2)?> (en <?=count($comentariosCon)?> archivos)</u></p>
-                                <p class="sample-text">7 - En el código están todas las variables definidas antes de su uso y tienen un comentario en la línea anterior o en la misma línea.<br><u>Número de errores : <?=count($comentariosVar,COUNT_RECURSIVE)-(count($comentariosVar)*2)?> (en <?=count($comentariosVar)?> archivos)</u></p>
+                                <u><?=count($directorios)?> elementos analizados / Número de errores : <?=$aux?></u></p>
+                                <p class="sample-text">2 - Los ficheros tienen el nombre indicado en la especificación en el fichero Files.conf.<br>
+<?php
+        $num=0;
+        $numE=0;
+        foreach($fileName as $part){
+            foreach($part as $elem){
+                $num++;
+                if(!$elem[1]) $numE++;
+            }
+        }
+        unset($part,$elem);
+?>
+                                <u><?=$num?> elementos analizados / Número de errores : <?=$numE?></u></p>
+                                <p class="sample-text">3 - Los ficheros tienen todos al principio del fichero comentada su función, autor y fecha.<br>
+<?php
+        $numE=0;
+        foreach($cabeceras as $elem) if(!$elem[1]) $numE++;
+        unset($elem);
+?>
+                                <u><?=count($cabeceras)?> elementos analizados / Número de errores : <?=$numE?></u></p>
+                                <p class="sample-text">4 - Las funciones y métodos en el código tienen comentarios con una descripción antes de su comienzo.<br>
+<?php
+        $numE=0;
+        foreach($comentariosFun as $elem) if(!$elem[1]) $numE+=count($elem)-2;
+        unset($elem);
+?>
+                                <u><?=count($comentariosFun)?> ficheros analizados / Número de errores : <?=$numE?></u></p>
+                                <p class="sample-text">5 - En el código están todas las variables definidas antes de su uso y tienen un comentario en la línea anterior o en la misma línea.<br>
+<?php
+        $numE=0;
+        foreach($comentariosVar as $elem) if(!$elem[1]) $numE+=count($elem)-2;
+        unset($elem);
+?>
+                                <u><?=count($comentariosVar)?> ficheros analizados / Número de errores : <?=$numE?></u></p>
+                                <p class="sample-text">6 - En el código están comentadas todas las estructuras de control en la línea anterior a su uso o en la misma línea.<br>
+<?php
+        $numE=0;
+        foreach($comentariosCon as $elem) if(!$elem[1]) $numE+=count($elem)-2;
+        unset($elem);
+?>
+                                <u><?=count($comentariosCon)?> ficheros analizados / Número de errores : <?=$numE?></u></p>
+                                <p class="sample-text">7 - Todos los ficheros dentro del directorio Model son definiciones de clases.<br>
+<?php
+        $numM=0;
+        $numEM=0;
+        $numC=0;
+        $numEC=0;
+        $numV=0;
+        $numEV=0;
+        foreach($tipoFile as $clave=>$part){
+            if($clave=='model') $numM=count($part);
+            if($clave=='controller') $numC=count($part);
+            if($clave=='view') $numV=count($part);
+            foreach($part as $elem){
+                if($clave=='model' && !$elem[1]) $numEM++;
+                if($clave=='controller' && !$elem[1]) $numEC++;
+                if($clave=='view' && !$elem[1]) $numEV++;
+            }
+        }
+        unset($part,$elem);
+?>
+                                <u><?=$numM?> elementos analizados / Número de errores : <?=$numEM?></u></p>
+                                <p class="sample-text">8 - Todos los ficheros dentro del directorio Controller son scripts php.<br><u><?=$numC?> elementos analizados / Número de errores : <?=$numEC?></u></p>
+                                <p class="sample-text">9 - Todos los ficheros dentro del directorio View son definiciones de clases.<br><u><?=$numV?> elementos analizados / Número de errores : <?=$numEV?></u></p>
                                 <br>
                                 <p class="sample-text"><b>Número de elementos analizados</b><br>Directorios: <?=$numDir?><br>Archivos: <?=$numArch?></p>
 							</div>
