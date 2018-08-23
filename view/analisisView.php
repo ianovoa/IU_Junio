@@ -84,50 +84,51 @@ class analisisView{
 <?php
         $aux=0;
         for($i=0;$i<count($directorios);$i++) if(!$directorios[$i][1]) $aux++;
+        $numEDir=$aux;
         if(!$soloIndex) $aux++;
 ?>
                                 <u><?=count($directorios)?> elementos analizados / Número de errores : <?=$aux?></u></p>
                                 <p class="sample-text">2 - Los ficheros tienen el nombre indicado en la especificación en el fichero Files.conf.<br>
 <?php
-        $num=0;
-        $numE=0;
+        $numName=0;
+        $numEName=0;
         foreach($fileName as $part){
             foreach($part as $elem){
-                $num++;
-                if(!$elem[1]) $numE++;
+                $numName++;
+                if(!$elem[1]) $numEName++;
             }
         }
         unset($part,$elem);
 ?>
-                                <u><?=$num?> elementos analizados / Número de errores : <?=$numE?></u></p>
+                                <u><?=$numName?> elementos analizados / Número de errores : <?=$numEName?></u></p>
                                 <p class="sample-text">3 - Los ficheros tienen todos al principio del fichero comentada su función, autor y fecha.<br>
 <?php
-        $numE=0;
-        foreach($cabeceras as $elem) if(!$elem[1]) $numE++;
+        $numEHead=0;
+        foreach($cabeceras as $elem) if(!$elem[1]) $numEHead++;
         unset($elem);
 ?>
-                                <u><?=count($cabeceras)?> elementos analizados / Número de errores : <?=$numE?></u></p>
+                                <u><?=count($cabeceras)?> elementos analizados / Número de errores : <?=$numEHead?></u></p>
                                 <p class="sample-text">4 - Las funciones y métodos en el código tienen comentarios con una descripción antes de su comienzo.<br>
 <?php
-        $numE=0;
-        foreach($comentariosFun as $elem) if(!$elem[1]) $numE+=count($elem)-2;
+        $numEFun=0;
+        foreach($comentariosFun as $elem) if(!$elem[1]) $numEFun+=count($elem)-2;
         unset($elem);
 ?>
-                                <u><?=count($comentariosFun)?> ficheros analizados / Número de errores : <?=$numE?></u></p>
+                                <u><?=count($comentariosFun)?> ficheros analizados / Número de errores : <?=$numEFun?></u></p>
                                 <p class="sample-text">5 - En el código están todas las variables definidas antes de su uso y tienen un comentario en la línea anterior o en la misma línea.<br>
 <?php
-        $numE=0;
-        foreach($comentariosVar as $elem) if(!$elem[1]) $numE+=count($elem)-2;
+        $numEVar=0;
+        foreach($comentariosVar as $elem) if(!$elem[1]) $numEVar+=count($elem)-2;
         unset($elem);
 ?>
-                                <u><?=count($comentariosVar)?> ficheros analizados / Número de errores : <?=$numE?></u></p>
+                                <u><?=count($comentariosVar)?> ficheros analizados / Número de errores : <?=$numEVar?></u></p>
                                 <p class="sample-text">6 - En el código están comentadas todas las estructuras de control en la línea anterior a su uso o en la misma línea.<br>
 <?php
-        $numE=0;
-        foreach($comentariosCon as $elem) if(!$elem[1]) $numE+=count($elem)-2;
+        $numECon=0;
+        foreach($comentariosCon as $elem) if(!$elem[1]) $numECon+=count($elem)-2;
         unset($elem);
 ?>
-                                <u><?=count($comentariosCon)?> ficheros analizados / Número de errores : <?=$numE?></u></p>
+                                <u><?=count($comentariosCon)?> ficheros analizados / Número de errores : <?=$numECon?></u></p>
                                 <p class="sample-text">7 - Todos los ficheros dentro del directorio Model son definiciones de clases.<br>
 <?php
         $numM=0;
@@ -177,24 +178,24 @@ class analisisView{
 						<h3 class="mb-30">Directorios obligatorios</h3>
 						<div class="row justify-content-center">
 							<div class="col-md-10">
-								<p class="sample-text">A continuacion se listarán los directorios especificados en el fichero Directories.conf que no se encuentran en el código analizado:</p>
+								<p class="sample-text">Existen los directorios especificados en el fichero Directories.conf:</p>
 <?php
-        if(count($directorios)==0){
+        for($i=0;$i<count($directorios);$i++){
+            if($directorios[$i][1]){
 ?>
-                                <p class="text-left"><b>No falta ninguno de los directorios especificados en el fichero Directories.conf</b></p>
+                                <p class="text-left"><?=$directorios[$i][0]?> &#8212;> OK</p>
 <?php
-        }
-        else{
-            for($i=0;$i<count($directorios);$i++){
+            }
+            else{
 ?>
-                                <p class="text-left"><b><?=$directorios[$i]?></b></p>
+                                <p class="text-left"><b><?=$directorios[$i][0]?> &#8212;> ERROR: NO EXISTE EL DIRECTORIO</b></p>
 <?php
             }
         }
 ?>
 							</div>
-							
 						</div>
+                        <p class="sample-text">RESUMEN: <?=count($directorios)?> Elementos analizados / Número de errores: <?=$numEDir?></p>
 					</div>
 				</div>
 			</div>
@@ -207,24 +208,219 @@ class analisisView{
 						<h3 class="mb-30">Nombre de los ficheros</h3>
 						<div class="row justify-content-center">
 							<div class="col-md-10">
-								<p class="sample-text">A continuacion se listarán los ficheros cuyo nombre no coindida con el patrón especificado, además de los ficheros requeridos, para cada directorio en el fichero Files.conf:</p>
+								<p class="sample-text">Los ficheros tienen el nombre indicado en la especificación en el fichero Files.conf:</p>
 <?php
         if(count($fileName)==0){
 ?>
-                                <p class="text-left"><b>Todos los archivos coindiden con su respectivo patrón</b></p>
+                                <p class="text-left"><b>No existe Files.conf o este no tiene ningún patrón definido</b></p>
 <?php
         }
         else{
-            for($i=0;$i<count($fileName);$i++){
+            foreach($fileName as $clave=>$part){
 ?>
-                                <p class="text-left"><b><?=$fileName[$i]?></b></p>
+                                <p class="text-left"><?=$clave?>:</p>
 <?php
+                for($i=0;$i<count($part);$i++){
+                    if($part[$i][1]){
+?>
+                                &nbsp;&nbsp;&nbsp;<p class="text-left"><?=$part[$i][0]?> &#8212;> OK</p>
+<?php
+                    }
+                    else{
+?>
+                                &nbsp;&nbsp;&nbsp;<p class="text-left"><b><?=$part[$i][0]?> &#8212;> ERROR</b></p>
+<?php
+                    }
+                }
+            }
+            unset($clave,$part);
+        }
+?>
+							</div>
+						</div>
+						<p class="sample-text">RESUMEN: <?=$numName?> Elementos analizados / Número de errores: <?=$numEName?></p>
+					</div>
+				</div>
+			</div>
+			<!-- End text Area -->
+
+			<!-- Start text Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
+						<h3 class="mb-30">Cabeceras de los ficheros</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text">Los ficheros del código a examinar tienen todos al principio del fichero comentada su función, autor y fecha.:</p>
+<?php
+        if(count($cabeceras)==0){
+?>
+                                <p class="text-left"><b>No hay ficheros de código subidos</b></p>
+<?php
+        }
+        else{
+            for($i=0;$i<count($cabeceras);$i++){
+                if($cabeceras[$i][1]){
+?>
+                                <p class="text-left"><?=$cabeceras[$i][0]?> &#8212;> OK</p>
+<?php
+                }
+                else{
+?>
+                                <p class="text-left"><b><?=$cabeceras[$i][0]?> &#8212;> ERROR: le falta
+<?php
+                    $max=count($cabeceras[$i]);
+                    for($j=2;$j<count($cabeceras[$i]);$j++){
+?>
+                                    <?=$cabeceras[$i][$j]?>
+<?php
+                        if($j!=$max-1) echo ', ';
+                    }
+?>
+                                .</b></p>
+<?php
+                }
             }
         }
 ?>
 							</div>
-							
 						</div>
+						<p class="sample-text">RESUMEN: <?=count($cabeceras)?> Elementos analizados / Número de errores: <?=$numEHead?></p>
+					</div>
+				</div>
+			</div>
+			<!-- End text Area -->
+
+			<!-- Start text Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
+						<h3 class="mb-30">Funciones comentadas</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text">Las funciones y métodos en el código a examinar tienen comentarios con una descripción antes de su comienzo:</p>
+<?php
+        if(count($comentariosFun)==0){
+?>
+                                <p class="text-left"><b>No hay ficheros de código subidos</b></p>
+<?php
+        }
+        else{
+            for($i=0;$i<count($comentariosFun);$i++){
+                if($comentariosFun[$i][1]){
+?>
+                                <p class="text-left"><?=$comentariosFun[$i][0]?> &#8212;> OK</p>
+<?php
+                }
+                else{
+?>
+                                <p class="text-left"><b><?=$comentariosFun[$i][0]?> &#8212;> ERROR<br>
+<?php
+                    for($j=2;$j<count($comentariosFun[$i]);$j++){
+?>
+                                    &nbsp;&nbsp;&nbsp;<?=$comentariosFun[$i][$j]?><br>
+<?php
+                    }
+?>
+                                </b></p>
+<?php
+                }
+            }
+        }
+?>
+							</div>
+						</div>
+						<p class="sample-text">RESUMEN: <?=count($comentariosFun)?> Elementos analizados / Número de errores: <?=$numEFun?></p>
+					</div>
+				</div>
+			</div>
+			<!-- End text Area -->
+
+			<!-- Start text Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
+						<h3 class="mb-30">Variables comentadas</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text">En el código a examinar están todas las variables definidas antes de su uso y tienen un comentario en la línea anterior o en la misma línea:</p>
+<?php
+        if(count($comentariosVar)==0){
+?>
+                                <p class="text-left"><b>No hay ficheros de código subidos</b></p>
+<?php
+        }
+        else{
+            for($i=0;$i<count($comentariosVar);$i++){
+                if($comentariosVar[$i][1]){
+?>
+                                <p class="text-left"><?=$comentariosVar[$i][0]?> &#8212;> OK</p>
+<?php
+                }
+                else{
+?>
+                                <p class="text-left"><b><?=$comentariosVar[$i][0]?> &#8212;> ERROR<br>
+<?php
+                    for($j=2;$j<count($comentariosVar[$i]);$j++){
+?>
+                                    &nbsp;&nbsp;&nbsp;<?=$comentariosVar[$i][$j]?><br>
+<?php
+                    }
+?>
+                                </b></p>
+<?php
+                }
+            }
+        }
+?>
+							</div>
+						</div>
+                        <p class="sample-text">RESUMEN: <?=count($comentariosVar)?> Elementos analizados / Número de errores: <?=$numEVar?></p>
+					</div>
+				</div>
+			</div>
+			<!-- End text Area -->
+
+			<!-- Start text Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
+						<h3 class="mb-30">Funciones comentadas</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text">En el código a examinar están comentadas todas las estructuras de control en la línea anterior a su uso o en la misma línea:</p>
+<?php
+        if(count($comentariosCon)==0){
+?>
+                                <p class="text-left"><b>No hay ficheros de código subidos</b></p>
+<?php
+        }
+        else{
+            for($i=0;$i<count($comentariosCon);$i++){
+                if($comentariosCon[$i][1]){
+?>
+                                <p class="text-left"><?=$comentariosCon[$i][0]?> &#8212;> OK</p>
+<?php
+                }
+                else{
+?>
+                                <p class="text-left"><b><?=$comentariosCon[$i][0]?> &#8212;> ERROR<br>
+<?php
+                    for($j=2;$j<count($comentariosCon[$i]);$j++){
+?>
+                                    &nbsp;&nbsp;&nbsp;<?=$comentariosCon[$i][$j]?><br>
+<?php
+                    }
+?>
+                                </b></p>
+<?php
+                }
+            }
+        }
+?>
+							</div>
+						</div>
+						<p class="sample-text">RESUMEN: <?=count($comentariosCon)?> Elementos analizados / Número de errores: <?=$numECon?></p>
 					</div>
 				</div>
 			</div>
@@ -253,168 +449,6 @@ class analisisView{
         }
 ?>
 							</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End text Area -->
-
-			<!-- Start text Area -->
-			<div class="white-bg">
-				<div class="container">
-					<div class="section-top-border text-center">
-						<h3 class="mb-30">Cabeceras de los ficheros</h3>
-						<div class="row justify-content-center">
-							<div class="col-md-10">
-								<p class="sample-text">A continuacion se listarán los ficheros que no recojan información al principio del archivo sobre el autor, la fecha o la función del código:</p>
-<?php
-        if(count($cabeceras)==0){
-?>
-                                <p class="text-left"><b>Todos los archivos tienen recogida la informacion mencionada</b></p>
-<?php
-        }
-        else{
-            for($i=0;$i<count($cabeceras);$i++){
-?>
-                                <p class="text-left"><b>
-                                    <?=$cabeceras[$i][0]?>, le falta: 
-<?php
-                $max=count($cabeceras[$i]);
-                for($j=1;$j<count($cabeceras[$i]);$j++){
-?>
-                                    <?=$cabeceras[$i][$j]?>
-<?php
-                    if($j!=$max-1) echo ', ';
-                }
-?>
-                                .</b></p>
-<?php
-            }
-        }
-?>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End text Area -->
-
-			<!-- Start text Area -->
-			<div class="white-bg">
-				<div class="container">
-					<div class="section-top-border text-center">
-						<h3 class="mb-30">Funciones comentadas</h3>
-						<div class="row justify-content-center">
-							<div class="col-md-10">
-								<p class="sample-text">A continuacion se listarán las funciones (y sus ficheros) que no recojan información al principio de la misma respecto a su función:</p>
-<?php
-        if(count($comentariosFun)==0){
-?>
-                                <p class="text-left"><b>Todos los archivos tienen recogida la informacion mencionada</b></p>
-<?php
-        }
-        else{
-            for($i=0;$i<count($comentariosFun);$i++){
-?>
-                                <p class="text-left"><b>
-                                    <u><?=$comentariosFun[$i][0]?></u>, le falta comentario a:<br>
-<?php
-                $max=count($comentariosFun[$i]);
-                for($j=1;$j<count($comentariosFun[$i]);$j++){
-?>
-                                    <?=$comentariosFun[$i][$j]?><br>
-<?php
-                }
-?>
-                                </b></p>
-<?php
-            }
-        }
-?>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End text Area -->
-
-			<!-- Start text Area -->
-			<div class="white-bg">
-				<div class="container">
-					<div class="section-top-border text-center">
-						<h3 class="mb-30">Funciones comentadas</h3>
-						<div class="row justify-content-center">
-							<div class="col-md-10">
-								<p class="sample-text">A continuacion se listarán las estructuras de control (y sus ficheros) que no recojan información al principio de la misma respecto a su función:</p>
-<?php
-        if(count($comentariosCon)==0){
-?>
-                                <p class="text-left"><b>Todos los archivos tienen recogida la informacion mencionada</b></p>
-<?php
-        }
-        else{
-            for($i=0;$i<count($comentariosCon);$i++){
-?>
-                                <p class="text-left"><b>
-                                    <u><?=$comentariosCon[$i][0]?></u>, le falta comentario a:<br>
-<?php
-                $max=count($comentariosCon[$i]);
-                for($j=1;$j<count($comentariosCon[$i]);$j++){
-?>
-                                    <?=$comentariosCon[$i][$j]?><br>
-<?php
-                }
-?>
-                                </b></p>
-<?php
-            }
-        }
-?>
-							</div>
-							
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- End text Area -->
-
-			<!-- Start text Area -->
-			<div class="white-bg">
-				<div class="container">
-					<div class="section-top-border text-center">
-						<h3 class="mb-30">Variables comentadas</h3>
-						<div class="row justify-content-center">
-							<div class="col-md-10">
-								<p class="sample-text">A continuacion se listarán las variables (y sus ficheros) que no recojan información en su primer uso respecto a su función:</p>
-<?php
-        if(count($comentariosVar)==0){
-?>
-                                <p class="text-left"><b>Todos los archivos tienen recogida la informacion mencionada</b></p>
-<?php
-        }
-        else{
-            for($i=0;$i<count($comentariosVar);$i++){
-?>
-                                <p class="text-left"><b>
-                                    <u><?=$comentariosVar[$i][0]?></u>, le falta comentario a:<br>
-<?php
-                $max=count($comentariosVar[$i]);
-                for($j=1;$j<count($comentariosVar[$i]);$j++){
-?>
-                                    <?=$comentariosVar[$i][$j]?><br>
-<?php
-                }
-?>
-                                </b></p>
-<?php
-            }
-        }
-?>
-							</div>
-							
 						</div>
 					</div>
 				</div>
