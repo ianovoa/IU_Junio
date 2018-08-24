@@ -131,27 +131,21 @@ class analisisView{
                                 <u><?=count($comentariosCon)?> ficheros analizados / Número de errores : <?=$numECon?></u></p>
                                 <p class="sample-text">7 - Todos los ficheros dentro del directorio Model son definiciones de clases.<br>
 <?php
-        $numM=0;
         $numEM=0;
-        $numC=0;
         $numEC=0;
-        $numV=0;
         $numEV=0;
         foreach($tipoFile as $clave=>$part){
-            if($clave=='model') $numM=count($part);
-            if($clave=='controller') $numC=count($part);
-            if($clave=='view') $numV=count($part);
             foreach($part as $elem){
                 if($clave=='model' && !$elem[1]) $numEM++;
                 if($clave=='controller' && !$elem[1]) $numEC++;
                 if($clave=='view' && !$elem[1]) $numEV++;
             }
         }
-        unset($part,$elem);
+        unset($clave,$part,$elem);
 ?>
-                                <u><?=$numM?> elementos analizados / Número de errores : <?=$numEM?></u></p>
-                                <p class="sample-text">8 - Todos los ficheros dentro del directorio Controller son scripts php.<br><u><?=$numC?> elementos analizados / Número de errores : <?=$numEC?></u></p>
-                                <p class="sample-text">9 - Todos los ficheros dentro del directorio View son definiciones de clases.<br><u><?=$numV?> elementos analizados / Número de errores : <?=$numEV?></u></p>
+                                <u><?=count($tipoFile['model'])?> elementos analizados / Número de errores : <?=$numEM?></u></p>
+                                <p class="sample-text">8 - Todos los ficheros dentro del directorio Controller son scripts php.<br><u><?=count($tipoFile['controller'])?> elementos analizados / Número de errores : <?=$numEC?></u></p>
+                                <p class="sample-text">9 - Todos los ficheros dentro del directorio View son definiciones de clases.<br><u><?=count($tipoFile['view'])?> elementos analizados / Número de errores : <?=$numEV?></u></p>
                                 <br>
                                 <p class="sample-text"><b>Número de elementos analizados</b><br>Directorios: <?=$numDir?><br>Archivos: <?=$numArch?></p>
 							</div>
@@ -430,26 +424,108 @@ class analisisView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-						<h3 class="mb-30">Tipo de los ficheros</h3>
+						<h3 class="mb-30">Tipo de los ficheros de Model</h3>
 						<div class="row justify-content-center">
 							<div class="col-md-10">
-								<p class="sample-text">A continuacion se listarán los ficheros que no sean definiciones de clases en el directorio Model o View, o que no sean scripts php en el directorio Controller:</p>
+								<p class="sample-text">Todos los ficheros dentro del directorio Model son definiciones de clases:</p>
 <?php
-        if(count($tipoFile)==0){
+        if(count($tipoFile['model'])==0){
 ?>
-                                <p class="text-left"><b>Todos los archivos de las tres carpetas cumplen la norma previamente mencionada</b></p>
+                                <p class="text-left"><b>No hay ficheros dentro de la carpeta Model</b></p>
 <?php
         }
         else{
-            for($i=0;$i<count($tipoFile);$i++){
-?>
-                                <p class="text-left"><b><?=$tipoFile[$i][0]?> (<?=$tipoFile[$i][1]?>)</b></p>
+            for($i=0;$i<count($tipoFile['model']);$i++){
+                if($tipoFile['model'][$i][1]){
 <?php
+                                <p class="text-left"><?=$tipoFile['model'][$i][0]?> &#8212;> OK</p>
+?>
+                }
+                else{
+?>
+                                <p class="text-left"><b><?=$tipoFile['model'][$i][0]?> &#8212;> ERROR: NO ES UNA CLASE</b></p>
+<?php
+                }
             }
         }
 ?>
 							</div>
 						</div>
+						<p class="sample-text">RESUMEN: <?=count($tipoFile['model'])?> Elementos analizados / Número de errores: <?=$numEM?></p>
+					</div>
+				</div>
+			</div>
+			<!-- End text Area -->
+
+			<!-- Start text Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
+						<h3 class="mb-30">Tipo de los ficheros de Controller</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text">Todos los ficheros dentro del directorio Controller son scripts php:</p>
+<?php
+        if(count($tipoFile['controller'])==0){
+?>
+                                <p class="text-left"><b>No hay ficheros dentro de la carpeta Controller</b></p>
+<?php
+        }
+        else{
+            for($i=0;$i<count($tipoFile['controller']);$i++){
+                if($tipoFile['controller'][$i][1]){
+<?php
+                                <p class="text-left"><?=$tipoFile['controller'][$i][0]?> &#8212;> OK</p>
+?>
+                }
+                else{
+?>
+                                <p class="text-left"><b><?=$tipoFile['controller'][$i][0]?> &#8212;> ERROR: NO ES UN SCRIPT</b></p>
+<?php
+                }
+            }
+        }
+?>
+							</div>
+						</div>
+						<p class="sample-text">RESUMEN: <?=count($tipoFile['controller'])?> Elementos analizados / Número de errores: <?=$numEC?></p>
+					</div>
+				</div>
+			</div>
+			<!-- End text Area -->
+
+			<!-- Start text Area -->
+			<div class="white-bg">
+				<div class="container">
+					<div class="section-top-border text-center">
+						<h3 class="mb-30">Tipo de los ficheros de View</h3>
+						<div class="row justify-content-center">
+							<div class="col-md-10">
+								<p class="sample-text">Todos los ficheros dentro del directorio View son definiciones de clases:</p>
+<?php
+        if(count($tipoFile['view'])==0){
+?>
+                                <p class="text-left"><b>No hay ficheros dentro de la carpeta View</b></p>
+<?php
+        }
+        else{
+            for($i=0;$i<count($tipoFile['view']);$i++){
+                if($tipoFile['view'][$i][1]){
+<?php
+                                <p class="text-left"><?=$tipoFile['view'][$i][0]?> &#8212;> OK</p>
+?>
+                }
+                else{
+?>
+                                <p class="text-left"><b><?=$tipoFile['view'][$i][0]?> &#8212;> ERROR: NO ES UNA CLASE</b></p>
+<?php
+                }
+            }
+        }
+?>
+							</div>
+						</div>
+						<p class="sample-text">RESUMEN: <?=count($tipoFile['view'])?> Elementos analizados / Número de errores: <?=$numEV?></p>
 					</div>
 				</div>
 			</div>
