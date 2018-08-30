@@ -212,20 +212,23 @@ class analisisView{
         else{
             foreach($fileName as $clave=>$part){
 ?>
-                                <p class="text-left"><?=$clave?>:</p>
+                                <p class="text-left"><?=$clave?>:<br>
 <?php
                 for($i=0;$i<count($part);$i++){
                     if($part[$i][1]){
 ?>
-                                &nbsp;&nbsp;&nbsp;<p class="text-left"><?=$part[$i][0]?> &#8212;> OK</p>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$part[$i][0]?> &#8212;> OK<br>
 <?php
                     }
                     else{
 ?>
-                                &nbsp;&nbsp;&nbsp;<p class="text-left"><b><?=$part[$i][0]?> &#8212;> ERROR</b></p>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><?=$part[$i][0]?> &#8212;> ERROR</b><br>
 <?php
                     }
                 }
+?>
+                                </p>
+<?php
             }
             unset($clave,$part);
         }
@@ -312,7 +315,7 @@ class analisisView{
 <?php
                     for($j=2;$j<count($comentariosFun[$i]);$j++){
 ?>
-                                    &nbsp;&nbsp;&nbsp;<?=$comentariosFun[$i][$j]?><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$comentariosFun[$i][$j]?><br>
 <?php
                     }
 ?>
@@ -357,7 +360,7 @@ class analisisView{
 <?php
                     for($j=2;$j<count($comentariosVar[$i]);$j++){
 ?>
-                                    &nbsp;&nbsp;&nbsp;<?=$comentariosVar[$i][$j]?><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$comentariosVar[$i][$j]?><br>
 <?php
                     }
 ?>
@@ -402,7 +405,7 @@ class analisisView{
 <?php
                     for($j=2;$j<count($comentariosCon[$i]);$j++){
 ?>
-                                    &nbsp;&nbsp;&nbsp;<?=$comentariosCon[$i][$j]?><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=$comentariosCon[$i][$j]?><br>
 <?php
                     }
 ?>
@@ -437,9 +440,9 @@ class analisisView{
         else{
             for($i=0;$i<count($tipoFile['model']);$i++){
                 if($tipoFile['model'][$i][1]){
-<?php
-                                <p class="text-left"><?=$tipoFile['model'][$i][0]?> &#8212;> OK</p>
 ?>
+                                <p class="text-left"><?=$tipoFile['model'][$i][0]?> &#8212;> OK</p>
+<?php
                 }
                 else{
 ?>
@@ -474,9 +477,9 @@ class analisisView{
         else{
             for($i=0;$i<count($tipoFile['controller']);$i++){
                 if($tipoFile['controller'][$i][1]){
-<?php
-                                <p class="text-left"><?=$tipoFile['controller'][$i][0]?> &#8212;> OK</p>
 ?>
+                                <p class="text-left"><?=$tipoFile['controller'][$i][0]?> &#8212;> OK</p>
+<?php
                 }
                 else{
 ?>
@@ -511,9 +514,9 @@ class analisisView{
         else{
             for($i=0;$i<count($tipoFile['view']);$i++){
                 if($tipoFile['view'][$i][1]){
-<?php
-                                <p class="text-left"><?=$tipoFile['view'][$i][0]?> &#8212;> OK</p>
 ?>
+                                <p class="text-left"><?=$tipoFile['view'][$i][0]?> &#8212;> OK</p>
+<?php
                 }
                 else{
 ?>

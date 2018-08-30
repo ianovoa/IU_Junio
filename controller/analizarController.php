@@ -77,21 +77,33 @@ function comprobarFileName(){
             else{
                 $expRegular=str_replace('%','[0-9A-Za-z]+',$dirYName[2]);
                 $expRegular=str_replace('.','\.',$expRegular);
-                $expRegular='/'.$expRegular.'/'; //crea la expresion regular necesaria para la busqueda
+                $expRegular='/^('.$expRegular.')$/'; //crea la expresion regular necesaria para la busqueda
                 for($j=0;$j<count($files);$j++){
                     if(!is_dir($files[$j])){
                         $str=explode('/',$dirYName[1],2); //spq
-                        $x=count($toret[$str[1].'/'.$dirYName[2]]);
+                        if(!isset($toret[$str[1].'/'.$dirYName[2]])) $x=0;
+                        else $x=count($toret[$str[1].'/'.$dirYName[2]]);
                         if(preg_match($expRegular,$files[$j])==0){
-                            $toret[$str[1].'/'.$dirYName[2]][$x][0]=$str[1].'/'.$files[$j];
-                            $toret[$str[1].'/'.$dirYName[2]][$x][1]=true;
-                        }
-                        elseif(preg_match($expRegular,$files[$j])==1){
                             $toret[$str[1].'/'.$dirYName[2]][$x][0]=$str[1].'/'.$files[$j];
                             $toret[$str[1].'/'.$dirYName[2]][$x][1]=false;
                         }
+                        elseif(preg_match($expRegular,$files[$j])==1){
+                            $toret[$str[1].'/'.$dirYName[2]][$x][0]=$str[1].'/'.$files[$j];
+                            $toret[$str[1].'/'.$dirYName[2]][$x][1]=true;
+                        }
                     }
                 }
+            }
+        }
+        else{
+            $str=explode('/',$dirYName[1],2); //spq
+            if(strpbrk($dirYName[2],'%')==false){
+                $toret[$str[1].'/'.$dirYName[2]][0][0]='Fichero requerido inexistente';
+                $toret[$str[1].'/'.$dirYName[2]][0][1]=false; //error
+            }
+            else{
+                $toret[$str[1].'/'.$dirYName[2]][0][0]='El patrón redirige a un directorio inexistente';
+                $toret[$str[1].'/'.$dirYName[2]][0][1]=false; //error
             }
         }
     }
@@ -115,13 +127,14 @@ function comprobarTipoFile(){
                     elseif(strpos($code[$j],'function ')!==false || strpos($code[$j],'switch ')!==false) break; //si se encuentra una de estas 2 antes es q no es una clase
                 }
                 $toret['model'][$k][0]=$files[$i];
-                if(!$tipoCorrecto) $toret[$k][1]=false; //error
-                else $toret[$k][1]=true; //todo correcto
+                if(!$tipoCorrecto) $toret['model'][$k][1]=false; //error
+                else $toret['model'][$k][1]=true; //todo correcto
                 $k++;
             }
         }
     }
     if($files=@scandir('../CodigoAExaminar/Controller')){
+        $k=0;
         for($i=0;$i<count($files);$i++){
             if(strpos($files[$i],'.php')!==false){
                 $tipoCorrecto=false;
@@ -134,13 +147,14 @@ function comprobarTipoFile(){
                     elseif(strpos($code[$j],'function ')!==false || strpos($code[$j],'class ')!==false) break; //si se encuentra una de estas 2 antes es q no es un scripts
                 }
                 $toret['controller'][$k][0]=$files[$i];
-                if(!$tipoCorrecto) $toret[$k][1]=false; //error
-                else $toret[$k][1]=true; //todo correcto
+                if(!$tipoCorrecto) $toret['controller'][$k][1]=false; //error
+                else $toret['controller'][$k][1]=true; //todo correcto
                 $k++;
             }
         }
     }
     if($files=@scandir('../CodigoAExaminar/View')){
+        $k=0;
         for($i=0;$i<count($files);$i++){
             if(strpos($files[$i],'.php')!==false){
                 $tipoCorrecto=false;
@@ -153,8 +167,8 @@ function comprobarTipoFile(){
                     elseif(strpos($code[$j],'function ')!==false || strpos($code[$j],'switch ')!==false) break; //si se encuentra una de estas 2 antes es q no es una clase
                 }
                 $toret['view'][$k][0]=$files[$i];
-                if(!$tipoCorrecto) $toret[$k][1]=false; //error
-                else $toret[$k][1]=true; //todo correcto
+                if(!$tipoCorrecto) $toret['view'][$k][1]=false; //error
+                else $toret['view'][$k][1]=true; //todo correcto
                 $k++;
             }
         }
@@ -196,7 +210,8 @@ function comprobarCabeceras($dirOr){
                     elseif($tipoCom!='' && preg_match('/[0-9A-Za-z\s]+/',$code[$j])==1) $tieneFuncion=true; //entendemos cualquier frase en la cabecera como funcion
                     if(($tipoCom=='/*' && strpos($code[$j],'*/')!==false) || ($tipoCom=='<!--' && strpos($code[$j],'-->')!==false)) break; //cuando se acaba la cabecera dejamos de leer
                 }
-                $k=count($toret);
+                if(!isset($toret)) $k=0;
+                else $k=count($toret);
                 if(!$tieneAutor || !$tieneFecha || !$tieneFuncion){
                     $toret[$k][0]=$dirOr.'/'.$files[$i];
                     $toret[$k][1]=false; //error
