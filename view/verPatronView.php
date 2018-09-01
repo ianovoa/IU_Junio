@@ -111,6 +111,8 @@ class verPatronView{
         if(count($archivosRequeridos)==0){
 ?>
                                 <p class="sample-text">El directorio <?=$directorio?> no tiene ningún archivo requerido</p>
+                            </div>
+                        </div>
 <?php
         }
         else{

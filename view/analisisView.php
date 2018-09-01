@@ -565,7 +565,7 @@ class analisisView{
 			<div class="white-bg">
 				<div class="container">
 					<div class="section-top-border text-center">
-						<a href="../index.php"><img src="../img/back.png" alt="" width="8%"></a>
+						<a href="../controller/analizarController.php?action=index"><img src="../img/back.png" alt="" width="8%"></a>
 					</div>
 				</div>
 			</div>

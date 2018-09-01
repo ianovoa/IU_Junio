@@ -70,7 +70,10 @@ Fecha: 11/06/2018
 						<div class="col-lg-8">
                             <div class="section-title text-center">
                                 <h2>Sube tu código</h2>
-                                <p class="mb-0 mt-10">Prueba a subir aquí el código que desees analizar: </p>
+                                <p class="mb-0 mt-10">
+                                    Prueba a subir aquí el código que desees analizar:<br>
+                                    <b>Nota:</b> Si desea subir varios ficheros deberá comprimirlos en un archivo rar, zip o tar.
+                                </p>
                             </div>
 						</div>
 					</div>
@@ -78,7 +81,7 @@ Fecha: 11/06/2018
 					<div class="row justify-content-center">
                         <div class="col-lg-6">
                             <form action="controller/analizarController.php?action=analizar" method="post" enctype="multipart/form-data" class="subscription relative">
-                                <input type="hidden" name="MAX_FILE_SIZE" value="2000000"/>
+                                <input type="hidden" name="MAX_FILE_SIZE" value="1073741824"/>
                                 <input type="file" name="code" required>
                                 <button class="primary-btn" name="enviar"><span>Get Started</span><span class="lnr lnr-arrow-right"></span></button>
                             </form>

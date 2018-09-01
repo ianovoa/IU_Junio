@@ -16,6 +16,27 @@ switch ($_REQUEST['action']){
 		$codeName=$_FILES['code']['name'];
 		if(!move_uploaded_file($_FILES['code']['tmp_name'],'../CodigoAExaminar/'.$_FILES['code']['name'])) new avisoView('Error al subir el archivo',"../index.php");
 		else{
+            if($_FILES['code']['type']=='application/x-rar-compressed'){ //archivo rar
+                $rarFile=rar_open('../CodigoAExaminar/'.$_FILES['code']['name']);
+                $list=rar_list($rarFile);
+                foreach($list as $file){
+                    $entry=rar_entry_get($rarFile,$file);
+                    $entry->extract('../CodigoAExaminar/');
+                }
+                unlink('../CodigoAExaminar/'.$_FILES['code']['name']);
+                unset($file);
+            }
+            if($_FILES['code']['type']=='application/x-tar'){ //archivo tar
+                $tarFile=new PharData('../CodigoAExaminar/'.$_FILES['code']['name']);
+                $tarFile->extractTo('../CodigoAExaminar/');
+                unlink('../CodigoAExaminar/'.$_FILES['code']['name']);
+            }
+            if($_FILES['code']['type']=='application/zip'){ //archivo zip
+                $zipFile=new ZipArchive;
+                $zipFile->open('../CodigoAExaminar/'.$_FILES['code']['name']);
+                $zipFile->extractTo('../CodigoAExaminar/');
+                unlink('../CodigoAExaminar/'.$_FILES['code']['name']);
+            }
             $directorios=comprobarDirectorio(); //comprueba que los directorios sean los de Directories.conf
             $fileName=comprobarFileName(); //comprueba que los archivos tengan nombres permitidos en File.conf
             $tipoFile=comprobarTipoFile(); //comprueba que los archivos tengan el tipo correcto
@@ -28,8 +49,14 @@ switch ($_REQUEST['action']){
             $numArch=conteoArch(''); //cuenta el numero de archivos de manera recursiva
             $numCom=conteoCom(''); //cuenta el numero de funciones, estr de control y variables totales del código subido
             new analisisView($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch,$numCom); //muestra los resultados del analisis
+            //array_map('unlink', glob('../CodigoAExaminar/*'));
+            delete(''); //borra los archivos del directorio una vez realizado el análisis
 		}
 		break;
+
+    case 'index': //mensaje de fin de análisis
+        new avisoView('Archivos borrados, volviendo al index.',"../index.php");
+        break;
 }
 
 //comprueba que los directorios sean los de Directories.conf
@@ -417,5 +444,17 @@ function conteoCom($dirOr){
         }
     }
     return $toret;
+}
+
+function delete($dirOr){
+    $dir='../CodigoAExaminar/'.$dirOr;
+    $files=scandir($dir);
+    for($i=0;$i<count($files);$i++){
+        if(is_dir($dir.'/'.$files[$i]) && !strpbrk($files[$i],'.')){
+            delete($dirOr.'/'.$files[$i]);
+            rmdir($dir.'/'.$files[$i]);
+        }
+        elseif(!is_dir($dir.'/'.$files[$i])) unlink($dir.'/'.$files[$i]);
+    }
 }
 ?>
