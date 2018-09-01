@@ -8,11 +8,11 @@
 */
 
 class analisisView{
-    function __construct($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch) {
-        $this->render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch);
+    function __construct($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch,$numCom) {
+        $this->render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch,$numCom);
     }
     
-    function render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch){
+    function render($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch,$numCom){
 ?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
@@ -114,21 +114,21 @@ class analisisView{
         foreach($comentariosFun as $elem) if(!$elem[1]) $numEFun+=count($elem)-2;
         unset($elem);
 ?>
-                                <u><?=count($comentariosFun)?> ficheros analizados / Número de errores : <?=$numEFun?></u></p>
+                                <u><?=count($comentariosFun)?> ficheros analizados / <?=$numCom['fun']?> elementos analizados / Número de errores : <?=$numEFun?></u></p>
                                 <p class="sample-text">5 - En el código están todas las variables definidas antes de su uso y tienen un comentario en la línea anterior o en la misma línea.<br>
 <?php
         $numEVar=0;
         foreach($comentariosVar as $elem) if(!$elem[1]) $numEVar+=count($elem)-2;
         unset($elem);
 ?>
-                                <u><?=count($comentariosVar)?> ficheros analizados / Número de errores : <?=$numEVar?></u></p>
+                                <u><?=count($comentariosVar)?> ficheros analizados / <?=$numCom['var']?> elementos analizados / Número de errores : <?=$numEVar?></u></p>
                                 <p class="sample-text">6 - En el código están comentadas todas las estructuras de control en la línea anterior a su uso o en la misma línea.<br>
 <?php
         $numECon=0;
         foreach($comentariosCon as $elem) if(!$elem[1]) $numECon+=count($elem)-2;
         unset($elem);
 ?>
-                                <u><?=count($comentariosCon)?> ficheros analizados / Número de errores : <?=$numECon?></u></p>
+                                <u><?=count($comentariosCon)?> ficheros analizados / <?=$numCom['con']?> elementos analizados / Número de errores : <?=$numECon?></u></p>
                                 <p class="sample-text">7 - Todos los ficheros dentro del directorio Model son definiciones de clases.<br>
 <?php
         $numEM=0;
@@ -327,7 +327,7 @@ class analisisView{
 ?>
 							</div>
 						</div>
-						<p class="sample-text">RESUMEN: <?=count($comentariosFun)?> Elementos analizados / Número de errores: <?=$numEFun?></p>
+						<p class="sample-text">RESUMEN: <?=count($comentariosFun)?> Ficheros analizados / <?=$numCom['fun']?> Elementos analizados / Número de errores: <?=$numEFun?></p>
 					</div>
 				</div>
 			</div>
@@ -372,7 +372,7 @@ class analisisView{
 ?>
 							</div>
 						</div>
-                        <p class="sample-text">RESUMEN: <?=count($comentariosVar)?> Elementos analizados / Número de errores: <?=$numEVar?></p>
+                        <p class="sample-text">RESUMEN: <?=count($comentariosVar)?> Ficheros analizados / <?=$numCom['var']?> Elementos analizados / Número de errores: <?=$numEVar?></p>
 					</div>
 				</div>
 			</div>
@@ -417,7 +417,7 @@ class analisisView{
 ?>
 							</div>
 						</div>
-						<p class="sample-text">RESUMEN: <?=count($comentariosCon)?> Elementos analizados / Número de errores: <?=$numECon?></p>
+						<p class="sample-text">RESUMEN: <?=count($comentariosCon)?> Ficheros analizados / <?=$numCom['con']?> Elementos analizados / Número de errores: <?=$numECon?></p>
 					</div>
 				</div>
 			</div>

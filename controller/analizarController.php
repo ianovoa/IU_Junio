@@ -26,7 +26,8 @@ switch ($_REQUEST['action']){
             $soloIndex=comprobarSoloIndex(); //comprueba q en la caepeta raiz solo se halle el index (boolean)
             $numDir=conteoDir(''); //cuenta el numero de directorios de manera recursiva
             $numArch=conteoArch(''); //cuenta el numero de archivos de manera recursiva
-            new analisisView($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch); //muestra los resultados del analisis
+            $numCom=conteoCom(''); //cuenta el numero de funciones, estr de control y variables totales del código subido
+            new analisisView($directorios,$fileName,$tipoFile,$cabeceras,$comentariosFun,$comentariosCon,$comentariosVar,$soloIndex,$numDir,$numArch,$numCom); //muestra los resultados del analisis
 		}
 		break;
 }
@@ -205,9 +206,9 @@ function comprobarCabeceras($dirOr){
                         }
                     }
                     if($tipoCom=='//' && strpos($code[$j],'//')===false) break; //cuando se acaba la cabecera dejamos de leer
-                    if($tipoCom!='' && preg_match('/[0-9]{2}\/[0-9]{2}\/[0-9]{2,4}/',$code[$j])==1) $tieneFecha=true;
-                    if($tipoCom!='' && preg_match('/@?[Aa]uth?or/',$code[$j])==1) $tieneAutor=true;
-                    elseif($tipoCom!='' && preg_match('/[0-9A-Za-z\s]+/',$code[$j])==1) $tieneFuncion=true; //entendemos cualquier frase en la cabecera como funcion
+                    if($tipoCom!='' && (preg_match('/[0-9]{2}\/[0-9]{2}\/[0-9]{2,4}/',$code[$j])==1 || preg_match('/fecha/',$code[$j])==1) || preg_match('/date/',$code[$j])==1) $tieneFecha=true;
+                    if($tipoCom!='' && preg_match('/@?auth?or/i',$code[$j])==1) $tieneAutor=true;
+                    elseif($tipoCom!='' && preg_match('/funct?ion/i',$code[$j])==1) $tieneFuncion=true; //entendemos cualquier frase en la cabecera como funcion
                     if(($tipoCom=='/*' && strpos($code[$j],'*/')!==false) || ($tipoCom=='<!--' && strpos($code[$j],'-->')!==false)) break; //cuando se acaba la cabecera dejamos de leer
                 }
                 if(!isset($toret)) $k=0;
@@ -242,12 +243,12 @@ function comprobarComentariosFuncion($dirOr){
     $files=scandir($dir);
     for($i=0;$i<count($files);$i++){
         if(!is_dir($dir.'/'.$files[$i])){
-            if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
+            if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.html')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
                 $k=count($toret);
                 $todoBien=true;
                 $code=file($dir.'/'.$files[$i],FILE_IGNORE_NEW_LINES);
                 for($j=0;$j<count($code);$j++){ //leemos el codigo
-                    if(preg_match('/^[A-Za-z][\w\s]+\((\$?[A-Za-z][\w\s]*,?)*\)\{/',$code[$j],$coincidencia)==1 && strpos($code[$j],'if')===false && strpos($code[$j],'for')===false && strpos($code[$j],'while')===false  &&strpos($code[$j],'class')===false  && strpos($code[$j],'foreach')===false && strpos($code[$j],'switch')===false && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
+                    if(preg_match('/^[A-Za-z][\w\s]+\((\$?[A-Za-z][\w\s]*,?)*\)\{/',$code[$j],$coincidencia)==1 && strpos($code[$j],'if')===false && strpos($code[$j],'for')===false && strpos($code[$j],'while')===false  && strpos($code[$j],'class')===false  && strpos($code[$j],'foreach')===false && strpos($code[$j],'switch')===false && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
                         $toret[$k][0]=$dirOr.'/'.$files[$i];
                         $toret[$k][1]=false; //error
                         $toret[$k][]=$coincidencia[0].' (linea '.($j+1).')';
@@ -275,12 +276,12 @@ function comprobarComentariosControl($dirOr){
     $files=scandir($dir);
     for($i=0;$i<count($files);$i++){
         if(!is_dir($dir.'/'.$files[$i])){
-            if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
+            if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.html')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
                 $k=count($toret);
                 $todoBien=true;
                 $code=file($dir.'/'.$files[$i],FILE_IGNORE_NEW_LINES);
                 for($j=0;$j<count($code);$j++){ //leemos el codigo
-                    if((preg_match('/(else)?if\s?\(.+\)\{/',$code[$j],$coincidencia)==1 || preg_match('/for(each)?\s?\(.+\)\{/',$code[$j],$coincidencia)==1 || preg_match('/do\s?\{/',$code[$j],$coincidencia)==1 || preg_match('/while\s?\(.+\)\{/',$code[$j],$coincidencia)==1 || preg_match('/switch\s?\(.+\)\{/',$code[$j],$coincidencia)==1) && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
+                    if((preg_match('/(else)?if\s?\(.*\)\{/',$code[$j],$coincidencia)==1 || preg_match('/else\s?\{/',$code[$j],$coincidencia)==1 || preg_match('/for(each)?\s?\(.*\)\{/',$code[$j],$coincidencia)==1 || preg_match('/do\s?\{/',$code[$j],$coincidencia)==1 || preg_match('/while\s?\(.*\)\{/',$code[$j],$coincidencia)==1 || preg_match('/switch\s?\(.*\)\{/',$code[$j],$coincidencia)==1) && strpos($code[$j],'//')===false && strpos($code[$j],'/*')===false && strpos($code[$j],'#')===false && preg_match('/^(\/\/)/',$code[$j-1])==0 && preg_match('/^(\/\*)/',$code[$j-1])==0 && preg_match('/^#/',$code[$j-1])==0){
                         $toret[$k][0]=$dirOr.'/'.$files[$i];
                         $toret[$k][1]=false; //error
                         $toret[$k][]=$coincidencia[0].' (linea '.($j+1).')';
@@ -308,7 +309,7 @@ function comprobarComentariosVar($dirOr){
     $files=scandir($dir);
     for($i=0;$i<count($files);$i++){
         if(!is_dir($dir.'/'.$files[$i])){
-            if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
+            if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.html')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
                 $k=count($toret);
                 $todoBien=true;
                 $variables=array();
@@ -381,6 +382,39 @@ function conteoArch($dirOr){
             $toret+=$recur;
         }
         elseif(!is_dir($dir.'/'.$files[$i])) $toret++;
+    }
+    return $toret;
+}
+
+function conteoCom($dirOr){
+    $dir='../CodigoAExaminar/'.$dirOr;
+    $toret=['fun'=>0,'con'=>0,'var'=>0];
+    $files=scandir($dir);
+    for($i=0;$i<count($files);$i++){
+        if(!is_dir($dir.'/'.$files[$i])){
+            if(strpos($dir.'/'.$files[$i],'.php')!==false || strpos($dir.'/'.$files[$i],'.html')!==false || strpos($dir.'/'.$files[$i],'.js')!==false || strpos($dir.'/'.$files[$i],'.c')!==false || strpos($dir.'/'.$files[$i],'.java')!==false || strpos($dir.'/'.$files[$i],'.‎py')!==false || strpos($dir.'/'.$files[$i],'.rb')!==false){
+                $variables=array();
+                $code=file($dir.'/'.$files[$i],FILE_IGNORE_NEW_LINES);
+                for($j=0;$j<count($code);$j++){ //leemos el codigo
+                    if(preg_match('/(\$?[A-Za-z]\w*)\s?=/',$code[$j],$coincidencia)==1){
+                        $sinRegistrar=true;
+                        for($x=0;$x<count($variables);$x++) if($variables[$x]==$coincidencia[1]) $sinRegistrar=false;
+                        if($sinRegistrar){
+                            $toret['var']++;
+                            $variables[]=$coincidencia[1];
+                        }
+                    }
+                    if(preg_match('/(else)?if\s?\(.*\)\{/',$code[$j])==1 || preg_match('/else\s?\{/',$code[$j])==1 || preg_match('/for(each)?\s?\(.*\)\{/',$code[$j])==1 || preg_match('/do\s?\{/',$code[$j])==1 || preg_match('/while\s?\(.*\)\{/',$code[$j])==1 || preg_match('/switch\s?\(.*\)\{/',$code[$j])==1) $toret['con']++;
+                    elseif(preg_match('/^[A-Za-z][\w\s]+\((\$?[A-Za-z][\w\s]*,?)*\)\{/',$code[$j])==1 && strpos($code[$j],'class')===false) $toret['fun']++;
+                }
+            }
+        }
+        elseif(!strpbrk($files[$i],'.')){
+            $recur=conteoCom($dirOr.'/'.$files[$i]);
+            $toret['var']+=$recur['var'];
+            $toret['con']+=$recur['con'];
+            $toret['fun']+=$recur['fun'];
+        }
     }
     return $toret;
 }
