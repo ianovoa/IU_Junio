@@ -432,9 +432,9 @@ class analisisView{
 							<div class="col-md-10">
 								<p class="sample-text">Todos los ficheros dentro del directorio Model son definiciones de clases:</p>
 <?php
-        if(count($tipoFile['model'])==0){
+        if(@count($tipoFile['model'])==0){
 ?>
-                                <p class="text-left"><b>No hay ficheros dentro de la carpeta Model</b></p>
+                                <p><b>No hay ficheros dentro de la carpeta Model</b></p>
 <?php
         }
         else{
@@ -454,7 +454,7 @@ class analisisView{
 ?>
 							</div>
 						</div>
-						<p class="sample-text">RESUMEN: <?=count($tipoFile['model'])?> Elementos analizados / Número de errores: <?=$numEM?></p>
+						<p class="sample-text">RESUMEN: <?=@count($tipoFile['model'])?> Elementos analizados / Número de errores: <?=$numEM?></p>
 					</div>
 				</div>
 			</div>
@@ -469,9 +469,9 @@ class analisisView{
 							<div class="col-md-10">
 								<p class="sample-text">Todos los ficheros dentro del directorio Controller son scripts php:</p>
 <?php
-        if(count($tipoFile['controller'])==0){
+        if(@count($tipoFile['controller'])==0){
 ?>
-                                <p class="text-left"><b>No hay ficheros dentro de la carpeta Controller</b></p>
+                                <p><b>No hay ficheros dentro de la carpeta Controller</b></p>
 <?php
         }
         else{
@@ -491,7 +491,7 @@ class analisisView{
 ?>
 							</div>
 						</div>
-						<p class="sample-text">RESUMEN: <?=count($tipoFile['controller'])?> Elementos analizados / Número de errores: <?=$numEC?></p>
+						<p class="sample-text">RESUMEN: <?=@count($tipoFile['controller'])?> Elementos analizados / Número de errores: <?=$numEC?></p>
 					</div>
 				</div>
 			</div>
@@ -506,9 +506,9 @@ class analisisView{
 							<div class="col-md-10">
 								<p class="sample-text">Todos los ficheros dentro del directorio View son definiciones de clases:</p>
 <?php
-        if(count($tipoFile['view'])==0){
+        if(@count($tipoFile['view'])==0){
 ?>
-                                <p class="text-left"><b>No hay ficheros dentro de la carpeta View</b></p>
+                                <p><b>No hay ficheros dentro de la carpeta View</b></p>
 <?php
         }
         else{
@@ -528,7 +528,7 @@ class analisisView{
 ?>
 							</div>
 						</div>
-						<p class="sample-text">RESUMEN: <?=count($tipoFile['view'])?> Elementos analizados / Número de errores: <?=$numEV?></p>
+						<p class="sample-text">RESUMEN: <?=@count($tipoFile['view'])?> Elementos analizados / Número de errores: <?=$numEV?></p>
 					</div>
 				</div>
 			</div>
